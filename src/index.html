@@ -7,6 +7,35 @@
     <title>Cookie Clicker</title>
   </head>
 
+  <main class="flex w-full justify-center flex-col md:flex-row">
+    <section>
+      <div>
+        <div id="total">Total</div>
+        <div>
+          <div id="count">Nombre de cookies</div>
+          <div id="per-seconds">Nombre /s</div>
+        </div>
+      </div>
+    </section>
+    <section class="flex flex-col justify-center items-center">
+      <div id="name">Nom</div>
+      <img id="clicker" width="256px" height="256px" src="./banane.png" />
+    </section>
+    <section>
+      <div id="template-bonus" class="flex">
+        <img src="./banane.png" height="48px" width="48px" alt="" />
+        <div>
+          <div>Bonus</div>
+          <div>Count</div>
+        </div>
+        <div>
+          <div>Price</div>
+          <div>Muliplier</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <body>
     <script type="module" src="./main.js"></script>
   </body>
