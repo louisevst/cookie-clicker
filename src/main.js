@@ -1,1 +1,4 @@
-import "./index.css";
+import './index.css';
+
+//bouton
+const button = document.getElementById('clicker');
