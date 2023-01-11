@@ -1,0 +1,14 @@
+{
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "pages": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0",
+    "sass": "^1.57.1",
+    "vite": "^2.4.4"
+  }
+}
