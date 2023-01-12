@@ -4,6 +4,7 @@ const clickerElement = document.getElementById('clicker');
 const totalCountElement = document.getElementById('total');
 const countElement = document.getElementById('count');
 const perSecondsElement = document.getElementById('per-seconds');
+const timerElement = document.getElementById('timer');
 
 let count = 0;
 let clickPerSeconds = 0;
@@ -120,9 +121,11 @@ function createGoldenBanana() {
   }, 30000);
   image.onclick = function () {
     //image.remove();
+    timerElement.style.display = 'block'; // affiche la div
     image.classList.remove('block');
     boost();
     setTimeout(() => {
+      timerElement.style.display = 'none'; // cache la div après 30 secondes
       boost = false;
     }, 30000);
   };
@@ -140,9 +143,8 @@ function goldenBanana() {
   }, randomDuration());
 }
 
-goldenBanana();
-
 document.addEventListener('DOMContentLoaded', () => {
+  goldenBanana();
   const bonuses = document.getElementById('bonuses');
   const bonusTemplate = document.getElementById('template-bonus');
 
@@ -162,27 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bonusTemplate.remove();
 
-  const button = document.getElementById('show-div'); //changer bouton
-  const hiddenDiv = document.getElementById('timer');
-
-  button.addEventListener('click', () => {
-    hiddenDiv.style.display = 'block'; // affiche la div
-    setTimeout(() => {
-      hiddenDiv.style.display = 'none'; // cache la div après 30 secondes
-    }, 30000);
-  });
-
   var timeLeft = 30;
-  var elem = document.getElementById('timer');
 
   var timerId = setInterval(countdown, 1000);
 
   function countdown() {
     if (timeLeft == -1) {
       clearTimeout(timerId);
-      doSomething();
     } else {
-      elem.innerHTML = 'Bonus : ' + timeLeft + ' sec. remaining';
+      timerElement.innerHTML = 'Bonus : ' + timeLeft + ' sec. remaining';
       timeLeft--;
     }
   }
