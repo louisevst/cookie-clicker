@@ -39,19 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const clone = bonusTemplate.cloneNode(true);
 
     clone.onclick = () => {
+      const multiplier = bonus.multiplier * 0.1;
+
       if (count < bonus.price) {
         return;
       }
-      const count = bonus.multiplier * 0.1;
 
       setInterval(() => {
-        updateCount(count);
+        updateCount(multiplier);
       }, 1000);
-      console.log(bonus.multiplier);
 
       count -= bonus.price;
 
-      clickPerSeconds += count;
+      clickPerSeconds += multiplier;
     };
 
     const multiplier = clone.querySelector('.multiplier');
