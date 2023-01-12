@@ -78,8 +78,7 @@ function randomDuration() {
 //créer la golden banana dans html
 var image = document.createElement('img');
 image.src = './banane.png';
-var body = document.getElementsByTagName(body);
-body.appendChild(image);
+document.body.appendChild(image);
 
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
@@ -99,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bonusTemplate.remove();
 
-  //const button = document.getElementById('show-div');
+  const button = document.getElementById('show-div'); //changer bouton
   const hiddenDiv = document.getElementById('timer');
 
   button.addEventListener('click', () => {
