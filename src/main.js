@@ -81,4 +81,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   bonusTemplate.remove();
+
+  //const button = document.getElementById('show-div');
+  const hiddenDiv = document.getElementById('timer');
+
+  button.addEventListener('click', () => {
+    hiddenDiv.style.display = 'block'; // affiche la div
+    setTimeout(() => {
+      hiddenDiv.style.display = 'none'; // cache la div après 30 secondes
+    }, 30000);
+  });
+
+  var timeLeft = 30;
+  var elem = document.getElementById('timer');
+
+  var timerId = setInterval(countdown, 1000);
+
+  function countdown() {
+    if (timeLeft == -1) {
+      clearTimeout(timerId);
+      doSomething();
+    } else {
+      elem.innerHTML = 'Bonus : ' + timeLeft + ' sec. remaining';
+      timeLeft--;
+    }
+  }
 });
