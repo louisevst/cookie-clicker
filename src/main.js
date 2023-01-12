@@ -85,10 +85,16 @@ const store = [
 ];
 
 clickerElement.addEventListener('click', () => {
+  clickerElement.src = './karate-2.svg';
+
   const amount = hasBoost ? 2 : 1;
   updateCount(amount);
   updateTotalCount(amount);
   console.log('click', count);
+});
+
+clickerElement.addEventListener('mouseup', () => {
+  clickerElement.src = './karate-1.svg';
 });
 
 function updateCount(nb) {
