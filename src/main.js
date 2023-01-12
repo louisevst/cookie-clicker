@@ -31,12 +31,18 @@ function updateCount(nb) {
   perSeconds.textContent = 'Par secondes: ' + clickPerSeconds.toFixed(1);
 }
 
+function updatePrice(clone, price) {
+  const priceElement = clone.querySelector('.price');
+  priceElement.innerHTML = 'Price : ' + price + ' 🍌';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
   const bonusTemplate = document.getElementById('template-bonus');
 
   for (const bonus of store) {
     const clone = bonusTemplate.cloneNode(true);
+    const multiplier = clone.querySelector('.multiplier');
 
     clone.onclick = () => {
       const multiplier = bonus.multiplier * 0.1;
@@ -45,39 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      count -= bonus.price;
+      clickPerSeconds += multiplier;
+
+      if (bonus.price < 50) {
+        bonus.price *= 2;
+      } else if (bonus.price >= 50 && bonus.price < 200) {
+        bonus.price *= 3;
+      } else if (bonus.price >= 200) {
+        bonus.price *= 4;
+      }
+
+      updatePrice(clone, bonus.price);
+
       setInterval(() => {
         updateCount(multiplier);
       }, 1000);
-
-      count -= bonus.price;
-
-      clickPerSeconds += multiplier;
     };
 
-    const multiplier = clone.querySelector('.multiplier');
-    multiplier.textContent = ' Multiplier: x' + bonus.multiplier;
+    updatePrice(clone, bonus.price);
+    multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
 
     bonuses.appendChild(clone);
-
-    const price = clone.querySelector('.price');
-    price.innerHTML = 'Price: ' + bonus.price;
   }
 
   bonusTemplate.remove();
-  //8
-  const priceButton = document.getElementById('price');
-  let price = 1;
-  priceButton.innerHTML = 'Price : ' + price + ' 🍌';
-
-  priceButton.addEventListener('click', () => {
-    if (price < 50) {
-      price *= 2;
-    } else if (price >= 50 && price < 200) {
-      price *= 3;
-    } else if (price >= 200) {
-      price *= 4;
-    }
-    priceButton.innerHTML = 'Price : ' + price + ' 🍌';
-  });
-  //fin 8
 });
