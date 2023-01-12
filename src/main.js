@@ -5,6 +5,7 @@ const totalCountElement = document.getElementById('total');
 const countElement = document.getElementById('count');
 const perSecondsElement = document.getElementById('per-seconds');
 const timerElement = document.getElementById('timer');
+const nameElement = document.getElementById('name');
 
 let count = 0;
 let clickPerSeconds = 0;
@@ -84,6 +85,45 @@ const store = [
   // },
 ];
 
+const ninjaName1 = [
+  'Silent',
+  'Big',
+  'Sad',
+  'Dark',
+  'Agile',
+  'Fragile',
+  'Dumb',
+  'Dead',
+  'Ghost',
+  'Snake',
+  'Mysterious',
+  'Clumsy',
+  'Hollow',
+  'Iron',
+  'Golden',
+  'Gracefull',
+  'Invisible',
+];
+const ninjaName2 = [
+  'Killer',
+  'Soldier',
+  'Assassin',
+  'Demon',
+  'Hunter',
+  'Spider',
+  'Bullet',
+  'Buildozer',
+  'Stalker',
+  'Samaritan',
+  'Ninja',
+  'Thunder',
+  'Wolf',
+];
+function getNinjaName() {
+  var num1 = Math.round(Math.random() * (ninjaName1.length - 1));
+  var num2 = Math.round(Math.random() * (ninjaName2.length - 1));
+  nameElement.innerHTML = `${ninjaName1[num1]} ${ninjaName2[num2]}`;
+}
 clickerElement.addEventListener('click', () => {
   const amount = hasBoost ? 2 : 1;
   updateCount(amount);
@@ -93,7 +133,7 @@ clickerElement.addEventListener('click', () => {
 
 function updateCount(nb) {
   count += nb;
-  countElement.textContent = count.toFixed(0) + ' cookies';
+  countElement.textContent = count.toFixed(0) + ' ninjas';
   perSecondsElement.textContent = `Par secondes: ${clickPerSeconds.toFixed(1)} ${
     hasBoost ? ' x2' : ''
   }`;
@@ -168,7 +208,7 @@ function randomDuration() {
   return 10000;
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
-function createGoldenBanana() {
+function createShuriken() {
   const image = document.getElementById('shuriken');
   image.classList.remove('hidden');
 
@@ -226,15 +266,16 @@ function createGoldenBanana() {
 }
 
 //function qui appelle la golden banana
-function goldenBanana() {
+function shuriken() {
   setTimeout(() => {
-    createGoldenBanana();
-    goldenBanana();
+    createShuriken();
+    shuriken();
   }, randomDuration());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  goldenBanana();
+  getNinjaName();
+  shuriken();
   const bonuses = document.getElementById('bonuses');
   const bonusTemplate = document.getElementById('template-bonus');
 
