@@ -147,10 +147,12 @@ function createGoldenBanana() {
     image.classList.add('hidden');
     clearInterval(interval);
     hasBoost = true;
+    multiplier.innerHTML += 'x2';
 
     setTimeout(() => {
       timerElement.style.display = 'none'; // cache la div après 30 secondes
       hasBoost = false;
+      multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
     }, 30 * 1000);
   };
 }
