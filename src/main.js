@@ -23,10 +23,9 @@ clickerElement.addEventListener('click', () => {
 
 function updateCount(nb) {
   count += nb;
-  countElement.innerHTML = count.toFixed(1) + ' cookies';
+  countElement.textContent = count.toFixed(0) + ' cookies';
+  perSeconds.textContent = 'Par secondes: ' + clickPerSeconds.toFixed(1);
 }
-
-let interval;
 
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
@@ -36,18 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const clone = bonusTemplate.cloneNode(true);
 
     clone.onclick = () => {
-      if (clickPerSeconds === 0) {
-        interval = setInterval(() => {
-          perSeconds.innerHTML = 'Par secondes: ' + clickPerSeconds;
-          updateCount(clickPerSeconds);
-        }, 1000);
-      }
+      const count = bonus.multiplier * 0.1;
 
-      clickPerSeconds += bonus.multiplier * 0.1;
+      setInterval(() => {
+        updateCount(count);
+      }, 1000);
+
+      clickPerSeconds += count;
     };
 
     const multiplier = clone.querySelector('.multiplier');
-    multiplier.innerHTML = ' Multiplier: x' + bonus.multiplier;
+    multiplier.textContent = ' Multiplier: x' + bonus.multiplier;
 
     bonuses.appendChild(clone);
   }
