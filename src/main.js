@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bonusTemplate.remove();
 
-  //const button = document.getElementById('show-div');
+  const button = document.getElementById('show-div'); //changer bouton
   const hiddenDiv = document.getElementById('timer');
 
   button.addEventListener('click', () => {
