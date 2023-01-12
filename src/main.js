@@ -53,4 +53,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   bonusTemplate.remove();
+  //8
+  const priceButton = document.getElementById('price');
+  let price = 1;
+  priceButton.innerHTML = 'Price : ' + price + ' 🍌';
+
+  priceButton.addEventListener('click', () => {
+    if (price < 50) {
+      price *= 2;
+    } else if (price >= 50 && price < 200) {
+      price *= 3;
+    } else if (price >= 200) {
+      price *= 4;
+    }
+    priceButton.innerHTML = 'Price : ' + price + ' 🍌';
+  });
+  //fin 8
 });
