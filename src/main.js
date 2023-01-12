@@ -17,32 +17,70 @@ const store = [
     count: 0,
     price: 1,
     multiplier: 1,
-    element: null,
-    src: './ninja1.svg',
+    src: './ninja1.png',
   },
   {
     label: 'Raphaël',
     count: 0,
     price: 10,
-    multiplier: 10,
-    element: null,
-    src: './ninja2.svg',
+    multiplier: 5,
+    src: './ninja2.png',
   },
   {
     label: 'Donatello',
     count: 0,
     price: 100,
-    multiplier: 100,
-    element: null,
-    src: './ninja3.svg',
+    multiplier: 10,
+    src: './ninja3.png',
   },
   {
     label: 'Michelangelo',
     count: 0,
     price: 1000,
+    multiplier: 25,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000,
+    multiplier: 50,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 100000,
+    multiplier: 75,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 1000000,
+    multiplier: 100,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000000,
+    multiplier: 250,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000000,
+    multiplier: 500,
+    src: './ninja4.png',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 100000000,
     multiplier: 1000,
-    element: null,
-    src: './ninja4.svg',
+    src: './ninja4.png',
   },
 ];
 
@@ -64,6 +102,11 @@ function updateTotalCount(nb) {
   totalCountElement.textContent = 'Total: ' + totalCount.toFixed();
 }
 
+function updateBonusImg(bonus) {
+  const imgElement = bonus.element.querySelector('img');
+  imgElement.src = bonus.src;
+}
+
 function updateBonusLabel(bonus) {
   const labelElement = bonus.element.querySelector('.label');
   labelElement.innerHTML = bonus.label;
@@ -76,12 +119,12 @@ function updateBonusCount(bonus) {
 
 function updateBonusPrice(bonus) {
   const priceElement = bonus.element.querySelector('.price');
-  priceElement.innerHTML = 'Price : ' + bonus.price + ' 🍌';
+  priceElement.innerHTML = bonus.price;
 }
 
 function updateBonusMultiplier(bonus) {
   const multiplier = bonus.element.querySelector('.multiplier');
-  multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
+  multiplier.innerHTML = 'x' + bonus.multiplier;
 }
 
 function bonusOnClick(bonus) {
@@ -184,9 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const bonus of store) {
     const clone = bonusTemplate.cloneNode(true);
     clone.onclick = () => bonusOnClick(bonus);
-
     bonus.element = clone;
 
+    updateBonusImg(bonus);
     updateBonusLabel(bonus);
     updateBonusCount(bonus);
     updateBonusPrice(bonus);
