@@ -106,7 +106,7 @@ function bonusOnClick(bonus) {
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
 function randomDuration() {
   //return Math.random() * (600000 - 300000) + 300000;
-  return 1000;
+  return 10000;
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
@@ -114,13 +114,15 @@ function createGoldenBanana() {
   image.src = './banane.png';
   image.style.width = '20%';
   document.body.appendChild(image);
-  image.onclick = function () {
-    image.remove();
-    boost();
-  };
   setTimeout(() => {
     image.remove();
   }, 30000);
+  image.onclick = function () {
+    image.remove();
+    setTimeout(() => {
+      boost();
+    }, 30000);
+  };
 }
 
 //function à appeler pour que le boost soit effectif
