@@ -100,7 +100,9 @@ clickerElement.addEventListener('mouseup', () => {
 function updateCount(nb) {
   count += nb;
   countElement.textContent = count.toFixed(0) + ' cookies';
-  perSecondsElement.textContent = 'Par secondes: ' + clickPerSeconds.toFixed(1);
+  perSecondsElement.textContent = `Par secondes: ${clickPerSeconds.toFixed(1)} ${
+    hasBoost ? ' x2' : ''
+  }`;
 }
 
 function updateTotalCount(nb) {
@@ -156,6 +158,7 @@ function bonusOnClick(bonus) {
   updateBonusPrice(bonus);
 
   setInterval(() => {
+    console.log(hasBoost);
     if (hasBoost) {
       updateCount(multiplier * 2);
       updateTotalCount(multiplier * 2);
@@ -167,7 +170,8 @@ function bonusOnClick(bonus) {
 }
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
 function randomDuration() {
-  return Math.random() * (600000 - 300000) + 300000;
+  //return Math.random() * (600000 - 300000) + 300000;
+  return 10000;
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
@@ -200,19 +204,29 @@ function createGoldenBanana() {
   setTimeout(() => {
     image.classList.add('hidden');
     clearInterval(interval);
-  }, 30 * 1000);
+  }, 5 * 1000);
 
   image.onclick = function () {
+    var timeLeft = 30;
+
+    var timerId = setInterval(countdown, 1000);
+
+    function countdown() {
+      if (timeLeft == -1) {
+        clearTimeout(timerId);
+      } else {
+        timerElement.innerHTML = 'Bonus : ' + timeLeft + ' sec. remaining';
+        timeLeft--;
+      }
+    }
     timerElement.style.display = 'block'; // affiche la div
     image.classList.add('hidden');
     clearInterval(interval);
     hasBoost = true;
-    multiplier.innerHTML += 'x2';
 
     setTimeout(() => {
       timerElement.style.display = 'none'; // cache la div après 30 secondes
       hasBoost = false;
-      multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
     }, 30 * 1000);
   };
 }
