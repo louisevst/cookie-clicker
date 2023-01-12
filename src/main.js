@@ -11,10 +11,24 @@ let totalCount = 0;
 
 const store = [
   {
-    label: 'Bonus',
+    label: 'Bonus 1',
+    count: 0,
+    price: 1,
+    multiplier: 1,
+    element: null,
+  },
+  {
+    label: 'Bonus 2',
     count: 0,
     price: 10,
-    multiplier: 1,
+    multiplier: 10,
+    element: null,
+  },
+  {
+    label: 'Bonus 3',
+    count: 0,
+    price: 100,
+    multiplier: 100,
     element: null,
   },
 ];
@@ -36,12 +50,22 @@ function updateTotalCount(nb) {
   totalCountElement.textContent = 'Total: ' + totalCount.toFixed();
 }
 
-function updatePrice(bonus) {
+function updateBonusLabel(bonus) {
+  const labelElement = bonus.element.querySelector('.label');
+  labelElement.innerHTML = bonus.label;
+}
+
+function updateBonusCount(bonus) {
+  const countElement = bonus.element.querySelector('.count');
+  countElement.innerHTML = bonus.count;
+}
+
+function updateBonusPrice(bonus) {
   const priceElement = bonus.element.querySelector('.price');
   priceElement.innerHTML = 'Price : ' + bonus.price + ' 🍌';
 }
 
-function updateMultiplier(bonus) {
+function updateBonusMultiplier(bonus) {
   const multiplier = bonus.element.querySelector('.multiplier');
   multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
 }
@@ -55,6 +79,7 @@ function bonusOnClick(bonus) {
 
   count -= bonus.price;
   clickPerSeconds += multiplier;
+  bonus.count += 1;
 
   if (bonus.price < 50) {
     bonus.price *= 2;
@@ -64,7 +89,8 @@ function bonusOnClick(bonus) {
     bonus.price *= 4;
   }
 
-  updatePrice(bonus);
+  updateBonusCount(bonus);
+  updateBonusPrice(bonus);
 
   setInterval(() => {
     updateCount(multiplier);
@@ -91,8 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bonus.element = clone;
 
-    updatePrice(bonus);
-    updateMultiplier(bonus);
+    updateBonusLabel(bonus);
+    updateBonusCount(bonus);
+    updateBonusPrice(bonus);
+    updateBonusMultiplier(bonus);
 
     bonuses.appendChild(clone);
   }
