@@ -124,11 +124,17 @@ function getNinjaName() {
   var num2 = Math.round(Math.random() * (ninjaName2.length - 1));
   nameElement.innerHTML = `${ninjaName1[num1]} ${ninjaName2[num2]}`;
 }
-clickerElement.addEventListener('click', () => {
+clickerElement.addEventListener('mousedown', () => {
+  clickerElement.src = './karate-2.svg';
+
   const amount = hasBoost ? 2 : 1;
   updateCount(amount);
   updateTotalCount(amount);
   console.log('click', count);
+});
+
+clickerElement.addEventListener('mouseup', () => {
+  clickerElement.src = './karate-1.svg';
 });
 
 function updateCount(nb) {
