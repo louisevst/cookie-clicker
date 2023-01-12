@@ -20,17 +20,19 @@ const store = [
 
 clickerElement.addEventListener('click', () => {
   updateCount(1);
+  updateTotalCount(1);
   console.log('click', count);
 });
 
 function updateCount(nb) {
   count += nb;
-  totalCount += nb;
-  total.textContent = 'Total: ' + totalCount.toFixed(1);
   countElement.textContent = count.toFixed(0) + ' cookies';
   perSeconds.textContent = 'Par secondes: ' + clickPerSeconds.toFixed(1);
 }
-
+function updateTotalCount(nb) {
+  totalCount += nb;
+  total.textContent = 'Total: ' + totalCount.toFixed(1);
+}
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
   const bonusTemplate = document.getElementById('template-bonus');
@@ -47,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setInterval(() => {
         updateCount(multiplier);
+        updateTotalCount(multiplier);
       }, 1000);
 
       count -= bonus.price;
