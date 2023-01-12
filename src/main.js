@@ -3,15 +3,17 @@ import './index.css';
 const clickerElement = document.getElementById('clicker');
 const countElement = document.getElementById('count');
 const perSeconds = document.getElementById('per-seconds');
+const total = document.getElementById('total');
 
 let count = 0;
 let clickPerSeconds = 0;
+let totalCount = 0;
 
 const store = [
   {
     label: 'Bonus',
     count: 0,
-    price: 100,
+    price: 10,
     multiplier: 1,
   },
 ];
@@ -23,7 +25,9 @@ clickerElement.addEventListener('click', () => {
 
 function updateCount(nb) {
   count += nb;
+  totalCount += nb;
   countElement.innerHTML = count.toFixed(1) + ' cookies';
+  total.innerHTML = 'Total: ' + totalCount.toFixed(1);
 }
 
 let interval;
@@ -36,20 +40,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const clone = bonusTemplate.cloneNode(true);
 
     clone.onclick = () => {
+      if (count < bonus.price) {
+        return;
+      }
       if (clickPerSeconds === 0) {
         interval = setInterval(() => {
           perSeconds.innerHTML = 'Par secondes: ' + clickPerSeconds;
           updateCount(clickPerSeconds);
         }, 1000);
       }
-
+      console.log(bonus.multiplier);
       clickPerSeconds += bonus.multiplier * 0.1;
+      count -= bonus.price;
     };
 
     const multiplier = clone.querySelector('.multiplier');
     multiplier.innerHTML = ' Multiplier: x' + bonus.multiplier;
 
     bonuses.appendChild(clone);
+
+    const price = clone.querySelector('.price');
+    price.innerHTML = 'Price: ' + bonus.price;
   }
 
   bonusTemplate.remove();
