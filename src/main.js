@@ -107,34 +107,54 @@ function bonusOnClick(bonus) {
 }
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
 function randomDuration() {
-  //return Math.random() * (600000 - 300000) + 300000;
-  return 10000;
+  return Math.random() * (600000 - 300000) + 300000;
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
-  var image = document.getElementById('golden-banana');
-  image.classList.add('block');
+  const image = document.getElementById('golden-banana');
+  image.classList.remove('hidden');
+
+  let xPosition = 10;
+  let yPosition = 10;
+  let xSpeed = 4;
+  let ySpeed = 4;
+
+  function update() {
+    image.style.left = xPosition + 'px';
+    image.style.top = yPosition + 'px';
+  }
+
+  const interval = setInterval(() => {
+    if (xPosition + image.clientWidth >= window.innerWidth || xPosition <= 0) {
+      xSpeed = -xSpeed;
+    }
+    if (yPosition + image.clientHeight >= window.innerHeight || yPosition <= 0) {
+      ySpeed = -ySpeed;
+    }
+
+    xPosition += xSpeed;
+    yPosition += ySpeed;
+    update();
+  }, 1000 / 60);
 
   setTimeout(() => {
-    //image.remove();
-    image.classList.remove('block');
-  }, 30000);
+    image.classList.add('hidden');
+    clearInterval(interval);
+  }, 30 * 1000);
+
   image.onclick = function () {
-    //image.remove();
     timerElement.style.display = 'block'; // affiche la div
-    image.classList.remove('block');
-    boost();
+    image.classList.add('hidden');
+    clearInterval(interval);
+    hasBoost = true;
+
     setTimeout(() => {
       timerElement.style.display = 'none'; // cache la div après 30 secondes
-      boost = false;
-    }, 30000);
+      hasBoost = false;
+    }, 30 * 1000);
   };
 }
 
-//function à appeler pour que le boost soit effectif
-function boost() {
-  hasBoost = true;
-}
 //function qui appelle la golden banana
 function goldenBanana() {
   setTimeout(() => {
@@ -163,45 +183,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   bonusTemplate.remove();
-
-  var timeLeft = 30;
-
-  var timerId = setInterval(countdown, 1000);
-
-  function countdown() {
-    if (timeLeft == -1) {
-      clearTimeout(timerId);
-    } else {
-      timerElement.innerHTML = 'Bonus : ' + timeLeft + ' sec. remaining';
-      timeLeft--;
-    }
-  }
-  //Banane qui bouge
-  const section = document.querySelector('section');
-  const logo = document.querySelector('.logo');
-  const FPS = 60;
-  section.style.height = window.innerHeight + 'px';
-  section.style.width = window.innerWidth + 'px';
-  // Logo moving velocity Variables
-  let xPosition = 10;
-  let yPosition = 10;
-  let xSpeed = 4;
-  let ySpeed = 4;
-  function update() {
-    logo.style.left = xPosition + 'px';
-    logo.style.top = yPosition + 'px';
-  }
-
-  setInterval(() => {
-    if (xPosition + logo.clientWidth >= window.innerWidth || xPosition <= 0) {
-      xSpeed = -xSpeed;
-    }
-    if (yPosition + logo.clientHeight >= window.innerHeight || yPosition <= 0) {
-      ySpeed = -ySpeed;
-    }
-
-    xPosition += xSpeed;
-    yPosition += ySpeed;
-    update();
-  }, 1000 / FPS);
 });
