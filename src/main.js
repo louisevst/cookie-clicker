@@ -35,8 +35,9 @@ const store = [
 ];
 
 clickerElement.addEventListener('click', () => {
-  updateCount(1);
-  updateTotalCount(1);
+  const amount = hasBoost ? 2 : 1;
+  updateCount(amount);
+  updateTotalCount(amount);
   console.log('click', count);
 });
 
@@ -110,17 +111,19 @@ function randomDuration() {
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
-  var image = document.createElement('img');
-  image.src = './banane.png';
-  image.style.width = '20%';
-  document.body.appendChild(image);
+  var image = document.getElementById('golden-banana');
+  image.classList.add('block');
+
   setTimeout(() => {
-    image.remove();
+    //image.remove();
+    image.classList.remove('block');
   }, 30000);
   image.onclick = function () {
-    image.remove();
+    //image.remove();
+    image.classList.remove('block');
+    boost();
     setTimeout(() => {
-      boost();
+      boost = false;
     }, 30000);
   };
 }
