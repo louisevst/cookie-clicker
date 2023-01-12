@@ -13,25 +13,74 @@ let hasBoost = false;
 
 const store = [
   {
-    label: 'Bonus 1',
+    label: 'Leonardo',
     count: 0,
     price: 1,
     multiplier: 1,
-    element: null,
+    src: './ninja1.svg',
   },
   {
-    label: 'Bonus 2',
+    label: 'Raphaël',
     count: 0,
     price: 10,
-    multiplier: 10,
-    element: null,
+    multiplier: 5,
+    src: './ninja2.svg',
   },
   {
-    label: 'Bonus 3',
+    label: 'Donatello',
     count: 0,
     price: 100,
+    multiplier: 10,
+    src: './ninja3.svg',
+  },
+  {
+    label: 'Michelangelo',
+    count: 0,
+    price: 1000,
+    multiplier: 25,
+    src: './ninja4.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000,
+    multiplier: 50,
+    src: './ninja5.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 100000,
+    multiplier: 75,
+    src: './ninja4.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 1000000,
     multiplier: 100,
-    element: null,
+    src: './ninja4.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000000,
+    multiplier: 250,
+    src: './ninja4.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 10000000,
+    multiplier: 500,
+    src: './ninja4.svg',
+  },
+  {
+    label: 'Splinter',
+    count: 0,
+    price: 100000000,
+    multiplier: 1000,
+    src: './ninja4.svg',
   },
 ];
 
@@ -53,6 +102,11 @@ function updateTotalCount(nb) {
   totalCountElement.textContent = 'Total: ' + totalCount.toFixed();
 }
 
+function updateBonusImg(bonus) {
+  const imgElement = bonus.element.querySelector('img');
+  imgElement.src = bonus.src;
+}
+
 function updateBonusLabel(bonus) {
   const labelElement = bonus.element.querySelector('.label');
   labelElement.innerHTML = bonus.label;
@@ -65,12 +119,12 @@ function updateBonusCount(bonus) {
 
 function updateBonusPrice(bonus) {
   const priceElement = bonus.element.querySelector('.price');
-  priceElement.innerHTML = 'Price : ' + bonus.price + ' 🍌';
+  priceElement.innerHTML = bonus.price;
 }
 
 function updateBonusMultiplier(bonus) {
   const multiplier = bonus.element.querySelector('.multiplier');
-  multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
+  multiplier.innerHTML = 'x' + bonus.multiplier;
 }
 
 function bonusOnClick(bonus) {
@@ -111,7 +165,7 @@ function randomDuration() {
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
-  const image = document.getElementById('golden-banana');
+  const image = document.getElementById('shuriken');
   image.classList.remove('hidden');
 
   let xPosition = 10;
@@ -147,10 +201,12 @@ function createGoldenBanana() {
     image.classList.add('hidden');
     clearInterval(interval);
     hasBoost = true;
+    multiplier.innerHTML += 'x2';
 
     setTimeout(() => {
       timerElement.style.display = 'none'; // cache la div après 30 secondes
       hasBoost = false;
+      multiplier.innerHTML = 'Multiplier: x' + bonus.multiplier;
     }, 30 * 1000);
   };
 }
@@ -171,9 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const bonus of store) {
     const clone = bonusTemplate.cloneNode(true);
     clone.onclick = () => bonusOnClick(bonus);
-
     bonus.element = clone;
 
+    updateBonusImg(bonus);
     updateBonusLabel(bonus);
     updateBonusCount(bonus);
     updateBonusPrice(bonus);
