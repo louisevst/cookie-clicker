@@ -1,0 +1,10 @@
+svg {
+  position: absolute;
+  width: 200px;
+  fill: #e6c200;
+}
+@media (max-width: 768px) {
+  svg {
+    width: 150px;
+  }
+}
