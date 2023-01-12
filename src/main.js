@@ -8,6 +8,7 @@ const perSecondsElement = document.getElementById('per-seconds');
 let count = 0;
 let clickPerSeconds = 0;
 let totalCount = 0;
+let hasBoost = false;
 
 const store = [
   {
@@ -67,19 +68,48 @@ function bonusOnClick(bonus) {
   updatePrice(bonus);
 
   setInterval(() => {
-    updateCount(multiplier);
-    updateTotalCount(multiplier);
+    if (hasBoost) {
+      updateCount(multiplier * 2);
+      updateTotalCount(multiplier * 2);
+    } else {
+      updateCount(multiplier);
+      updateTotalCount(multiplier);
+    }
   }, 1000);
 }
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
 function randomDuration() {
-  return Math.random() * (600000 - 300000) - 300000;
+  //return Math.random() * (600000 - 300000) + 300000;
+  return 1000;
 }
-//créer la golden banana dans html
-var image = document.createElement('img');
-image.src = './banane.png';
-var body = document.getElementsByTagName(body);
-body.appendChild(image);
+//créer la golden banana dans html et la fait disparaître après 30 sec
+function createGoldenBanana() {
+  var image = document.createElement('img');
+  image.src = './banane.png';
+  image.style.width = '20%';
+  document.body.appendChild(image);
+  image.onclick = function () {
+    image.remove();
+    boost();
+  };
+  setTimeout(() => {
+    image.remove();
+  }, 30000);
+}
+
+//function à appeler pour que le boost soit effectif
+function boost() {
+  hasBoost = true;
+}
+//function qui appelle la golden banana
+function goldenBanana() {
+  setTimeout(() => {
+    createGoldenBanana();
+    goldenBanana();
+  }, randomDuration());
+}
+
+goldenBanana();
 
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
