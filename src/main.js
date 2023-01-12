@@ -13,25 +13,36 @@ let hasBoost = false;
 
 const store = [
   {
-    label: 'Bonus 1',
+    label: 'Leonardo',
     count: 0,
     price: 1,
     multiplier: 1,
     element: null,
+    src: './ninja1.svg',
   },
   {
-    label: 'Bonus 2',
+    label: 'Raphaël',
     count: 0,
     price: 10,
     multiplier: 10,
     element: null,
+    src: './ninja2.svg',
   },
   {
-    label: 'Bonus 3',
+    label: 'Donatello',
     count: 0,
     price: 100,
     multiplier: 100,
     element: null,
+    src: './ninja3.svg',
+  },
+  {
+    label: 'Michelangelo',
+    count: 0,
+    price: 1000,
+    multiplier: 1000,
+    element: null,
+    src: './ninja4.svg',
   },
 ];
 
@@ -111,7 +122,7 @@ function randomDuration() {
 }
 //créer la golden banana dans html et la fait disparaître après 30 sec
 function createGoldenBanana() {
-  const image = document.getElementById('golden-banana');
+  const image = document.getElementById('shuriken');
   image.classList.remove('hidden');
 
   let xPosition = 10;
