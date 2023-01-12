@@ -71,6 +71,15 @@ function bonusOnClick(bonus) {
     updateTotalCount(multiplier);
   }, 1000);
 }
+//fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
+function randomDuration() {
+  return Math.random() * (600000 - 300000) - 300000;
+}
+//créer la golden banana dans html
+var image = document.createElement('img');
+image.src = './banane.png';
+var body = document.getElementsByTagName(body);
+body.appendChild(image);
 
 document.addEventListener('DOMContentLoaded', () => {
   const bonuses = document.getElementById('bonuses');
