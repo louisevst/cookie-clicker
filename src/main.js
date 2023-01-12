@@ -20,13 +20,12 @@ const store = [
 
 clickerElement.addEventListener('click', () => {
   updateCount(1);
+  updateTotalCount(1);
   console.log('click', count);
 });
 
 function updateCount(nb) {
   count += nb;
-  totalCount += nb;
-  total.textContent = 'Total: ' + totalCount.toFixed(1);
   countElement.textContent = count.toFixed(0) + ' cookies';
   perSeconds.textContent = 'Par secondes: ' + clickPerSeconds.toFixed(1);
 }
@@ -34,6 +33,11 @@ function updateCount(nb) {
 function updatePrice(clone, price) {
   const priceElement = clone.querySelector('.price');
   priceElement.innerHTML = 'Price : ' + price + ' 🍌';
+}
+
+function updateTotalCount(nb) {
+  totalCount += nb;
+  total.textContent = 'Total: ' + totalCount.toFixed();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setInterval(() => {
         updateCount(multiplier);
+        updateTotalCount(multiplier);
       }, 1000);
     };
 
