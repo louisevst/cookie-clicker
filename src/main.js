@@ -84,7 +84,7 @@ const store = [
   // },
 ];
 
-clickerElement.addEventListener('click', () => {
+clickerElement.addEventListener('mousedown', () => {
   clickerElement.src = './karate-2.svg';
 
   const amount = hasBoost ? 2 : 1;
