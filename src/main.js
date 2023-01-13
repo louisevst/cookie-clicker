@@ -19,10 +19,10 @@ function setLocalStorage(property, value) {
   localStorage.setItem(
     'game',
     JSON.stringify({
-      totalCount: 0,
-      hasBoost: false,
-      count: 0,
-      clickPerSeconds: 0,
+      totalCount,
+      hasBoost,
+      count,
+      clickPerSeconds,
       [property]: value,
     }),
   );
@@ -34,22 +34,17 @@ function setLocalStorageBonus(index, property, value) {
 }
 
 function getLocalStorageBonus() {
-  if (typeof Storage !== 'undefined') {
-    // vérifie si le navigateur prend en charge localStorage
-    const storedStore = JSON.parse(localStorage.getItem('bonus'));
-    for (let i = 0; i < store.length; i++) {
-      store[i] = { ...store[i], ...storedStore[i] };
-    }
+  const storedStore = JSON.parse(localStorage.getItem('bonus'));
+  for (let i = 0; i < store.length; i++) {
+    store[i] = { ...store[i], ...storedStore[i] };
   }
 }
 
 function getLocalStorage(property) {
-  if (typeof Storage !== 'undefined') {
-    const value = localStorage.getItem('game');
-    const object = JSON.parse(value);
-    if (object !== null) {
-      return object[property];
-    }
+  const value = localStorage.getItem('game');
+  const object = JSON.parse(value);
+  if (object !== null) {
+    return object[property];
   }
 }
 
@@ -213,7 +208,7 @@ function shuriken() {
   }, randomDuration());
 }
 
-const saveInterval = setInterval(() => {
+setInterval(() => {
   setLocalStorage('count', count);
   setLocalStorage('clickPerSeconds', clickPerSeconds);
   setLocalStorage('totalCount', totalCount);
@@ -226,10 +221,13 @@ const saveInterval = setInterval(() => {
 }, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-  saveInterval;
-  getLocalStorage('count');
-  getLocalStorage('clickPerSeconds');
-  getLocalStorage('totalCount');
+  count = getLocalStorage('count');
+  clickPerSeconds = getLocalStorage('clickPerSeconds');
+  totalCount = getLocalStorage('totalCount');
+
+  updateCount(0);
+  updateTotalCount(0);
+
   for (let i = 0; i < store.length; i++) {
     getLocalStorageBonus(i, 'count', store[i].count);
     getLocalStorageBonus(i, 'price', store[i].price);
