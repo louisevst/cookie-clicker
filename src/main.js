@@ -8,6 +8,8 @@ const perSecondsElement = document.getElementById('per-seconds');
 const timerElement = document.getElementById('timer');
 const nameElement = document.getElementById('name');
 
+const hideAfter = 30 * 1000;
+
 let count = 0;
 let clickPerSeconds = 0;
 let totalCount = 0;
