@@ -105,4 +105,7 @@ export const ninjaNames = [
   'Ninja',
   'Thunder',
   'Wolf',
+  'Shade',
+  'Dagger',
+  'Master',
 ];
