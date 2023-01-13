@@ -1,88 +1,23 @@
 import './index.css';
+import { store, ninjaAdjectives, ninjaNames } from './constants';
 
 const clickerElement = document.getElementById('clicker');
 const totalCountElement = document.getElementById('total');
 const countElement = document.getElementById('count');
 const perSecondsElement = document.getElementById('per-seconds');
 const timerElement = document.getElementById('timer');
+const nameElement = document.getElementById('name');
 
 let count = 0;
 let clickPerSeconds = 0;
 let totalCount = 0;
 let hasBoost = false;
 
-const store = [
-  {
-    label: 'Leonardo',
-    count: 0,
-    price: 1,
-    multiplier: 1,
-    src: './bonus-1.svg',
-  },
-  {
-    label: 'Raphaël',
-    count: 0,
-    price: 10,
-    multiplier: 5,
-    src: './bonus-2.svg',
-  },
-  {
-    label: 'Donatello',
-    count: 0,
-    price: 100,
-    multiplier: 10,
-    src: './bonus-3.svg',
-  },
-  {
-    label: 'Michelangelo',
-    count: 0,
-    price: 1000,
-    multiplier: 25,
-    src: './bonus-4.svg',
-  },
-  {
-    label: 'Splinter',
-    count: 0,
-    price: 10000,
-    multiplier: 50,
-    src: './bonus-5.svg',
-  },
-  {
-    label: 'Shredder',
-    count: 0,
-    price: 100000,
-    multiplier: 75,
-    src: './bonus-6.svg',
-  },
-  {
-    label: 'Krang',
-    count: 0,
-    price: 1000000,
-    multiplier: 100,
-    src: './bonus-7.svg',
-  },
-  // {
-  //   label: 'Splinter',
-  //   count: 0,
-  //   price: 10000000,
-  //   multiplier: 250,
-  //   src: './bonus-.svg',
-  // },
-  // {
-  //   label: 'Splinter',
-  //   count: 0,
-  //   price: 10000000,
-  //   multiplier: 500,
-  //   src: './bonus-.svg',
-  // },
-  // {
-  //   label: 'Splinter',
-  //   count: 0,
-  //   price: 100000000,
-  //   multiplier: 1000,
-  //   src: './bonus-.svg',
-  // },
-];
+function getNinjaName() {
+  const num1 = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
+  const num2 = Math.floor(Math.random() * (ninjaNames.length - 1));
+  nameElement.innerHTML = `${ninjaAdjectives[num1]} ${ninjaNames[num2]}`;
+}
 
 clickerElement.addEventListener('mousedown', () => {
   clickerElement.src = './karate-2.svg';
@@ -90,7 +25,6 @@ clickerElement.addEventListener('mousedown', () => {
   const amount = hasBoost ? 2 : 1;
   updateCount(amount);
   updateTotalCount(amount);
-  console.log('click', count);
 });
 
 clickerElement.addEventListener('mouseup', () => {
@@ -99,7 +33,7 @@ clickerElement.addEventListener('mouseup', () => {
 
 function updateCount(nb) {
   count += nb;
-  countElement.textContent = count.toFixed(0) + ' cookies';
+  countElement.textContent = count.toFixed(0) + ' ninjas';
   perSecondsElement.textContent = `Par secondes: ${clickPerSeconds.toFixed(1)} ${
     hasBoost ? ' x2' : ''
   }`;
@@ -158,7 +92,6 @@ function bonusOnClick(bonus) {
   updateBonusPrice(bonus);
 
   setInterval(() => {
-    console.log(hasBoost);
     if (hasBoost) {
       updateCount(multiplier * 2);
       updateTotalCount(multiplier * 2);
@@ -168,13 +101,14 @@ function bonusOnClick(bonus) {
     }
   }, 1000);
 }
+
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
 function randomDuration() {
-  //return Math.random() * (600000 - 300000) + 300000;
-  return 10000;
+  return Math.random() * (600000 - 300000) + 300000;
 }
+
 //créer la golden banana dans html et la fait disparaître après 30 sec
-function createGoldenBanana() {
+function createShuriken() {
   const image = document.getElementById('shuriken');
   image.classList.remove('hidden');
 
@@ -204,12 +138,11 @@ function createGoldenBanana() {
   setTimeout(() => {
     image.classList.add('hidden');
     clearInterval(interval);
-  }, 5 * 1000);
+  }, hideAfter);
 
   image.onclick = function () {
-    var timeLeft = 30;
-
-    var timerId = setInterval(countdown, 1000);
+    const timerId = setInterval(countdown, 1000);
+    let timeLeft = 30;
 
     function countdown() {
       if (timeLeft == -1) {
@@ -219,6 +152,7 @@ function createGoldenBanana() {
         timeLeft--;
       }
     }
+
     timerElement.style.display = 'block'; // affiche la div
     image.classList.add('hidden');
     clearInterval(interval);
@@ -227,20 +161,22 @@ function createGoldenBanana() {
     setTimeout(() => {
       timerElement.style.display = 'none'; // cache la div après 30 secondes
       hasBoost = false;
-    }, 30 * 1000);
+    }, hideAfter);
   };
 }
 
 //function qui appelle la golden banana
-function goldenBanana() {
+function shuriken() {
   setTimeout(() => {
-    createGoldenBanana();
-    goldenBanana();
+    createShuriken();
+    shuriken();
   }, randomDuration());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  goldenBanana();
+  getNinjaName();
+  shuriken();
+
   const bonuses = document.getElementById('bonuses');
   const bonusTemplate = document.getElementById('template-bonus');
 
