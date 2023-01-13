@@ -13,6 +13,44 @@ let clickPerSeconds = 0;
 let totalCount = 0;
 let hasBoost = false;
 
+function setLocalStorage(property, value) {
+  localStorage.setItem(
+    'game',
+    JSON.stringify({
+      totalCount: 0,
+      hasBoost: false,
+      count: 0,
+      clickPerSeconds: 0,
+      [property]: value,
+    }),
+  );
+}
+
+function setLocalStorageBonus(index, property, value) {
+  store[index][property] = value;
+  localStorage.setItem('bonus', JSON.stringify(store));
+}
+
+function getLocalStorageBonus() {
+  if (typeof Storage !== 'undefined') {
+    // vérifie si le navigateur prend en charge localStorage
+    const storedStore = JSON.parse(localStorage.getItem('bonus'));
+    for (let i = 0; i < store.length; i++) {
+      store[i] = { ...store[i], ...storedStore[i] };
+    }
+  }
+}
+
+function getLocalStorage(property) {
+  if (typeof Storage !== 'undefined') {
+    const value = localStorage.getItem('game');
+    const object = JSON.parse(value);
+    if (object !== null) {
+      return object[property];
+    }
+  }
+}
+
 function getNinjaName() {
   const num1 = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
   const num2 = Math.floor(Math.random() * (ninjaNames.length - 1));
@@ -173,7 +211,28 @@ function shuriken() {
   }, randomDuration());
 }
 
+const saveInterval = setInterval(() => {
+  setLocalStorage('count', count);
+  setLocalStorage('clickPerSeconds', clickPerSeconds);
+  setLocalStorage('totalCount', totalCount);
+  setLocalStorage('hasBoost', hasBoost);
+  for (let i = 0; i < store.length; i++) {
+    setLocalStorageBonus(i, 'count', store[i].count);
+    setLocalStorageBonus(i, 'price', store[i].price);
+    setLocalStorageBonus(i, 'multiplier', store[i].multiplier);
+  }
+}, 1000);
+
 document.addEventListener('DOMContentLoaded', () => {
+  saveInterval;
+  getLocalStorage('count');
+  getLocalStorage('clickPerSeconds');
+  getLocalStorage('totalCount');
+  for (let i = 0; i < store.length; i++) {
+    getLocalStorageBonus(i, 'count', store[i].count);
+    getLocalStorageBonus(i, 'price', store[i].price);
+    getLocalStorageBonus(i, 'multiplier', store[i].multiplier);
+  }
   getNinjaName();
   shuriken();
 
