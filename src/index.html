@@ -20,6 +20,38 @@
     class="bg-repeat scrollbar-hide overflow-auto"
     style="background-image: url(./pattern.svg)"
   >
+    <div
+      id="popup"
+      tabindex="-1"
+      class="hidden absolute inset-0 flex items-center justify-center z-50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full font-mono"
+    >
+      <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+        <div class="relative p-4 bg-[#22213a] rounded-lg shadow dark:bg-gray-800 md:p-8">
+          <div class="mb-4 text-sm font-light text-[#f3e1d3]">
+            <h3 class="mb-3 text-2xl font-bold text-[#f3e1d3]">Your time to shine!</h3>
+            <p>
+              The young karateka that you are wants to triumph over evil in New York City.
+              With your mouse, just click to give your best high kicks. Don't forget that
+              the more ninjas you get, the more help you can buy from Ninja Turtles. You
+              will also notice that the more you ask for help, the more expensive it
+              becomes. Beware: it's ride or die in the sewers bitches
+            </p>
+          </div>
+          <div class="justify-between items-center pt-0 space-y-4 sm:flex sm:space-y-0">
+            <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
+              <button
+                id="close-popup-button"
+                type="button"
+                class="py-2 px-4 w-full text-sm font-medium text-[#f3e1d3] bg-[#72a731] rounded-lg sm:w-auto hover:bg-[#497f30] focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-[#f3e1d3] focus:z-10"
+              >
+                PLAY!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <img
       id="shuriken"
       class="absolute w-52 h-52 block hidden cursor-pointer z-20"
