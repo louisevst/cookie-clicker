@@ -32,11 +32,19 @@ function setRandomNinjaName() {
 }
 
 // Close notifications
+function closeNotifications() {
+  var alert_del = document.querySelectorAll('.alert-del');
+  alert_del.forEach((x) =>
+    x.addEventListener('click', function () {
+      x.parentElement.classList.add('hidden');
+    }),
+  );
+}
 
 function showNotification(string) {
-  var box = `
+  const box = `
   <div
-    class="flex justify-between text-purple-200 shadow-inner rounded p-3 bg-purple-600"
+    class="w-3/5 md:w-1/2 lg:w-1/4 absolute bottom-0 right-0 z-10 flex justify-between text-purple-200 rounded p-3 bg-purple-600"
   >
     <p class="self-center">
       ${string}
@@ -44,14 +52,19 @@ function showNotification(string) {
     <strong class="text-xl align-center cursor-pointer alert-del">&times;</strong>
   </div>`;
 
-  document.getElementById('clickNotif').innerHTML += box;
-  var alert_del = document.querySelectorAll('.alert-del');
-  alert_del.forEach((x) =>
-    x.addEventListener('click', function () {
-      x.parentElement.classList.add('hidden');
-    }),
-  );
-  setTimeout(() => {}, 30000);
+  const element = document.createElement('div');
+  //element.classList = 'w-3/5 md:w-1/2 lg:w-1/4 absolute bottom-0 right-0 z-10';
+  element.innerHTML = box;
+
+  const notifs = document.getElementById('clickNotif');
+
+  notifs.after(element);
+
+  closeNotifications();
+
+  setTimeout(() => {
+    element.classList.add('hidden');
+  }, 30000);
 }
 
 // LOCAL STORAGE
@@ -167,7 +180,7 @@ function onBonusClick(bonus) {
   //   return;
   // }
   showNotification(
-    `You just clicked the bonus ${bonus.label}, it costed you ${bonus.price} ninjas`,
+    `You just clicked the bonus ${bonus.label} ! </br>-${bonus.price} ninjas</br>+${bonus.cps} ninjas/seconde`,
   );
   updateBank(-bonus.price);
   updateBonusCount(bonus);
