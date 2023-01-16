@@ -52,6 +52,7 @@ function getNinjaName() {
   const num1 = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
   const num2 = Math.floor(Math.random() * (ninjaNames.length - 1));
   nameElement.innerHTML = `${ninjaAdjectives[num1]} ${ninjaNames[num2]}`;
+  return `${ninjaAdjectives[num1]} ${ninjaNames[num2]}`;
 }
 
 clickerElement.addEventListener('mousedown', () => {
@@ -125,16 +126,6 @@ function bonusOnClick(bonus) {
 
   updateBonusCount(bonus);
   updateBonusPrice(bonus);
-
-  setInterval(() => {
-    if (hasBoost) {
-      updateCount(multiplier * 2);
-      updateTotalCount(multiplier * 2);
-    } else {
-      updateCount(multiplier);
-      updateTotalCount(multiplier);
-    }
-  }, 1000);
 }
 
 //fonction pour avoir la durée entre 5 et 10min qui déclanche banane dorée
@@ -213,6 +204,7 @@ setInterval(() => {
   setLocalStorage('clickPerSeconds', clickPerSeconds);
   setLocalStorage('totalCount', totalCount);
   setLocalStorage('hasBoost', hasBoost);
+
   for (let i = 0; i < store.length; i++) {
     setLocalStorageBonus(i, 'count', store[i].count);
     setLocalStorageBonus(i, 'price', store[i].price);
@@ -254,4 +246,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   bonusTemplate.remove();
+
+  //Faire en sorte que le score par seconde s'actualise même quand il est en setStorage
+
+  var allMultiplier = store.filter((v) => v.count > 0);
+
+  for (let i = 0; i < allMultiplier.length; i++) {
+    let count = allMultiplier[i].count;
+    let multiplier = allMultiplier[i].multiplier;
+    var storedMultiplier = 0.1 * multiplier * count;
+    setInterval(() => {
+      if (hasBoost) {
+        updateCount(storedMultiplier * 2);
+        updateTotalCount(storedMultiplier * 2);
+      } else {
+        updateCount(storedMultiplier);
+        updateTotalCount(storedMultiplier);
+      }
+    }, 1000);
+  }
 });
