@@ -32,16 +32,8 @@ function setRandomNinjaName() {
   nameElement.innerHTML = name;
 }
 
-// Close notifications
-function closeNotifications() {
-  var alert_del = document.querySelectorAll('.alert-del');
-  alert_del.forEach((x) =>
-    x.addEventListener('click', function () {
-      x.parentElement.classList.add('hidden');
-    }),
-  );
-}
-//show notifications
+// NOTIFICATIONS
+
 function showNotification(string) {
   const box = `
   <div
@@ -53,18 +45,18 @@ function showNotification(string) {
     <strong class="text-xl align-center cursor-pointer alert-del">&times;</strong>
   </div>`;
 
+  const notifs = document.getElementById('clickNotif');
   const element = document.createElement('div');
   element.innerHTML = box;
-
-  const notifs = document.getElementById('clickNotif');
-
-  notifs.appendChild(element);
-
-  closeNotifications();
+  element.onclick = () => {
+    element.remove();
+  };
 
   setTimeout(() => {
-    element.classList.add('hidden');
+    element.remove();
   }, 30000);
+
+  notifs.appendChild(element);
 }
 
 // LOCAL STORAGE
