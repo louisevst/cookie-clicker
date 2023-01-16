@@ -2,14 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Join the ninja turtles in this fun and interactive cookie clicker game, created by a team of three as part of their BeCode training. Explore the game and have fun!"
+    />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,76 +17,69 @@
     <title>Cookie Clicker</title>
   </head>
   <body
-    class="overflow-hidden bg-repeat"
-    style="background-image: url(./public/pattern.svg)"
+    class="bg-repeat scrollbar-hide overflow-auto"
+    style="background-image: url(./pattern.svg)"
   >
     <img
       id="shuriken"
-      class="absolute w-52 h-52 block hidden cursor-pointer"
-      width="120px"
-      height="120px"
-      src="./Shuriken.svg"
+      class="absolute w-52 h-52 block hidden cursor-pointer z-20"
+      src="./shuriken.svg"
     />
-    <!--- <svg
-      id="shuriken"
-      class="absolute w-52 h-52 fill-yellow-400 block hidden cursor-pointer"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 595.28 841.89"
-    >
-      <path
-        d="m319.86,263.59c0-10.28.12-20.56-.04-30.83-.09-5.81,3.73-8.54,9.18-5.91,13.27,6.4,23.13,16.57,31.14,28.72,1.18,1.8,2.28,3.65,3.73,5.97.91-1.79,1.65-3.21,2.36-4.65,13.33-26.74,26.57-53.52,40.01-80.2,5.99-11.89,14.13-22.12,24.99-29.99,28.68-20.77,57.72-9.39,64.62,25.33,3.71,18.7,2.79,37.48-.61,56.03-9.9,54.03-15.79,70.58-45.91,133.55,9.79,7.52,19.92,14.52,29.13,22.58,16.23,14.19,28.39,31.26,32.65,52.88,4.59,23.31-.3,44.88-13.26,64.61-1.22,1.85-4.36,3.71-6.32,3.44-1.91-.26-4.32-2.95-5.02-5.07-5.66-17.22-12.9-33.56-25.81-46.66-5.04-5.11-11-9.32-16.53-13.95l-1.19,1.05c.14.52.16,1.14.45,1.56,10.06,14.3,11.66,30.5,10.08,47.2-.73,7.73-2.44,15.39-4.1,23-6.66,30.44-26.75,51.06-51.14,68-29.11,20.22-61.83,27.59-96.94,24.57-2.43-.21-5.69-2.38-6.73-4.52-1.63-3.35,1.11-5.62,4.18-7.3,21.97-12.04,41.59-26.88,56.04-47.76,10.73-15.5,16.91-32.62,18.17-51.48.62-9.29-2.3-24.2-6.28-31.09-14.12,16.45-31.22,28.85-50.64,38.1-22.99,10.94-47.33,17.03-72.45,20.53-31.29,4.36-62.69,4.47-94.04,1.65-18.31-1.65-36.49-4.9-54.67-7.82-2.21-.36-5.5-2.99-5.76-4.92-1.38-10.07-1.63-20.23,2.57-29.9,2.11-4.86,5.08-7.93,10.99-8.57,46.45-5.08,86.22-26.31,123.92-52.21,23.08-15.85,44.4-33.89,64.49-53.39,2.18-2.11,3.19-3.93,2.44-7.26-7.4-32.65-28.43-51.93-59.63-61.28-21.65-6.49-43.89-7.11-66.19-5.53-12.23.87-24.37,3.06-36.58,4.28-2.49.25-5.8-.5-7.5-2.11-1.16-1.09-1.03-4.97,0-6.74,17.03-29.14,39.36-52.64,71.37-65.42,43.68-17.44,100.83,3.37,121.98,40.06.38.65.89,1.23,1.35,1.84.52-.13,1.03-.25,1.55-.38Zm79.4,151.78c.85-1.01,1.3-1.5,1.71-2.02,37.02-47,62.65-99.57,77.04-157.64,5.66-22.84,9.5-45.89,7.95-69.53-.66-10.01-2.46-19.81-8.09-28.42-5.55-8.49-14.44-12.14-24.22-9.34-4.87,1.39-9.69,3.54-13.99,6.23-10.56,6.6-18.1,16.13-23.57,27.18-16.5,33.32-33.54,66.4-48.94,100.22-9.48,20.82-22.61,38.57-37.78,55.23-1.8,1.97-3.34,4.58-3.97,7.14-3.43,13.96-8.88,27.04-15.57,39.73-2.29,4.34-3.25,9.38-5.18,15.21,17.63-3.71,33.76-5.7,50.08-3.78,16.7,1.96,31.95,7.49,44.53,19.78Zm-255.31,79.76c1.77,4.83,3.3,9.55,5.3,14.06.47,1.06,2.48,1.94,3.83,2.03,34.09,2.24,68.1,2.18,101.86-3.91,25.48-4.6,49.92-12.18,72.14-25.9,13.56-8.37,25.46-18.59,35.02-31.31-13.39-28.18-40.41-38.47-67.19-35.16-4.69.58-9.62,2.68-13.54,5.38-34.39,23.74-70.4,44.6-108.41,61.97-9.47,4.33-19.04,8.43-29,12.83Zm162.79-130.56c5.51-11.94,8.65-23.22,10.1-34.92,2.3-18.54,1.49-36.85-6.04-54.28-15.41-35.64-55.86-49.26-84.21-48.24-39.41,1.43-65.41,24.83-87.67,55.9,3.35-.3,5.6-.42,7.84-.7,26.52-3.35,53.01-4.18,79.37,1.35,40.41,8.48,72.8,33.24,80.61,80.89Zm13.48,229.54c2.09,0,3.25.07,4.4-.01,33.2-2.42,62.35-14.47,85.83-38.21,8.64-8.74,16.69-18.82,22.19-29.72,6.94-13.75,9.3-29.29,9.95-44.87,1.04-24.89-9.3-41.5-30.96-47.14-8.83-2.3-17.26-3.96-22.21-12.57-.47-.81-1.47-1.33-2.26-1.94-16.25-12.51-35.04-14.1-55.16-13.03.91.79,1.21,1.21,1.61,1.38,21.17,8.8,34.62,24.69,43.01,45.69,7.09,17.73,9.8,35.68,5.92,54.54-5.98,29.06-21.6,52.14-43.72,71.2-5.74,4.95-11.9,9.4-18.61,14.68Zm173.72-108.45c6.5-13.01,8.96-30.55,6.48-43.59-6.4-33.57-30.34-52.63-56.53-69.5-11.29,16.41-22.21,32.28-33.14,48.16,43.72.77,67.32,27.35,83.19,64.92Zm-349.82-3.23c1.99-.81,3.34-1.34,4.68-1.91,49.39-21.05,95.77-47.4,139.14-79.04,6.88-5.02,9.7-14.42,6.85-22.85-44.44,41.51-92.79,76.87-151.35,96.34.22,2.45.41,4.58.67,7.46Zm186.36-163.11c11.34-12.3,20.32-26.46,26.45-42.39.38-.99.44-2.4.03-3.35-5.35-12.38-13.23-22.77-24.54-31.37-.24,1.76-.42,2.83-.54,3.91-1.24,11.54-2.47,23.08-3.71,34.63-.3,2.79-1.08,5.62-.84,8.36.87,10.04,2.07,20.06,3.15,30.22Zm-197.34,158.74c-7.8,1.51-14.42,2.96-21.1,4.04-10.31,1.65-11.11,2.34-12.34,12.71-.08.66-.08,1.33-.1,1.99q-.26,7.46,6.99,8.77c2.77.5,5.54,1.1,8.33,1.45,7.12.89,14.26,1.68,23.11,2.7-6.64-10.6-7.9-20.69-4.89-31.66Z"
-      />
-    </svg>-->
-    <main class="flex w-full justify-center flex-col md:flex-row md:pt-4 lg:pt-8">
-      <section class="grid grid-cols-2 md:grid-cols-1">
-        <div class="font-mono text-[#f2e9e4] text-l text-center md:text-left">
-          <div id="total">Total: 0</div>
+    <div id="clickNotif" class="container w-screen absolute bottom-0 left-0 z-10"></div>
+
+    <main class="flex w-full justify-center flex-col md:flex-row md:pt-4 lg:pt-8 gap-4">
+      <section
+        class="flex flex-row md:flex-col font-mono gap-10 justify-center items-center mt-4"
+      >
+        <div
+          class="text-[#f2e9e4] text-l text-center md:text-left py-2.5 px-5 bg-[#30344a] rounded-lg"
+        >
+          <div id="total">Score: 0</div>
           <div>
             <div id="count">0 ninja</div>
-            <div id="per-seconds">Par secondes: 0</div>
+            <div id="per-seconds">0 per sec.</div>
           </div>
           <div id="timer"></div>
         </div>
-        <!---Catégorie banque--->
-
-        <div class="font-mono text-[#f2e9e4] text-l text-center md:text-left">
-          <div>Total: 0</div>
-          <div>
-            <div>0 ninja</div>
-            <div>Par secondes: 0</div>
-          </div>
-          <div id="timer"></div>
-        </div>
+        <button
+          id="reset"
+          class="bg-[#9f1414] text-[#f2e9e4] hover:bg-[#8b1111] font-bold rounded-md px-6 py-2 text-base w-24 h-10"
+        >
+          Reset
+        </button>
       </section>
       <section class="flex flex-col justify-center items-center">
         <div
           id="name"
           class="font-['Aclonica'] text-[#f2e9e4] text-center text-2xl md:text-4xl px-8"
-        >
-          Nom
-        </div>
-        <img id="clicker" class="cursor-pointer w-1/2 md:w-80" src="./karate-1.svg" />
+        ></div>
+        <img
+          id="clicker"
+          class="cursor-pointer w-1/2 md:w-80"
+          src="./karate-1.svg"
+          alt="Ninja clicker"
+        />
       </section>
-      <section id="bonuses" class="grid grid-cols-2 md:grid-cols-1">
-        <div
+      <section id="bonuses" class="grid grid-cols-2 md:grid-cols-1 gap-2">
+        <button
           id="template-bonus"
-          class="cursor-pointer flex md:flex-wrap rounded-lg shadow-xl bg-[#4a4e69] mb-2 px-4 py-1 font-mono text-[#f2e9e4] text-sm"
+          class="flex md:flex-wrap rounded-lg shadow-xl bg-[#30344a] px-1 py-1 sm:px-4 sm:py-2 font-mono text-[#f2e9e4] text-sm gap-2 sm:gap-4 items-center disabled:opacity-50"
         >
-          <img alt="" class="stroke-[#f2e9e4] w-7 md:w-10" />
-          <div>
-            <div class="label my-4 pl-4">Bonus</div>
-            <div class="count pl-4">Count</div>
+          <img alt="" class="stroke-[#f2e9e4] w-8 md:w-10" />
+          <div class="flex flex-col items-start">
+            <div class="label">Bonus</div>
+            <div class="count">0</div>
           </div>
-          <div class="flex flex-col items-end ml-auto">
+          <div class="flex flex-col items-end ml-auto self-start">
             <div>
               <div class="price inline"></div>
-              <img class="inline" src="./price.svg" width="20px" />
+              <img class="inline" src="./price.svg" width="20px" alt="Bonus price icon" />
             </div>
-            <div class="multiplier">Muliplier</div>
+            <div class="multiplier"></div>
           </div>
-        </div>
+        </button>
       </section>
     </main>
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
