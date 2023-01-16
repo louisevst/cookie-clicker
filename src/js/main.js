@@ -25,6 +25,29 @@ function setRandomNinjaName() {
   nameElement.innerHTML = `${ninjaAdjectives[adjective]} ${ninjaNames[name]}`;
 }
 
+// Close notifications
+
+function showNotification(string) {
+  var box = `
+  <div
+    class="flex justify-between text-purple-200 shadow-inner rounded p-3 bg-purple-600"
+  >
+    <p class="self-center">
+      ${string}
+    </p>
+    <strong class="text-xl align-center cursor-pointer alert-del">&times;</strong>
+  </div>`;
+
+  document.getElementById('clickNotif').innerHTML += box;
+  var alert_del = document.querySelectorAll('.alert-del');
+  alert_del.forEach((x) =>
+    x.addEventListener('click', function () {
+      x.parentElement.classList.add('hidden');
+    }),
+  );
+  setTimeout(() => {}, 30000);
+}
+
 // LOCAL STORAGE
 
 function setLocalStorage(property, value) {
@@ -136,7 +159,9 @@ function onBonusClick(bonus) {
   // if (bank < bonus.price) {
   //   return;
   // }
-
+  showNotification(
+    `You just clicked the bonus ${bonus.label}, it costed you ${bonus.price} ninjas`,
+  );
   updateBank(-bonus.price);
   updateBonusCount(bonus);
   updateBonusPrice(bonus);
