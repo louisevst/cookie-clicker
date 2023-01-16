@@ -18,11 +18,17 @@ let clickPerSeconds = 0;
 let score = 0;
 let hasBoost = false;
 let cpsIntervalId;
+let name;
 
 function setRandomNinjaName() {
-  const adjective = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
-  const name = Math.floor(Math.random() * (ninjaNames.length - 1));
-  nameElement.innerHTML = `${ninjaAdjectives[adjective]} ${ninjaNames[name]}`;
+  const adjectiveRandom = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
+  const nameRandom = Math.floor(Math.random() * (ninjaNames.length - 1));
+  const randomName = `${ninjaAdjectives[adjectiveRandom]} ${ninjaNames[nameRandom]}`;
+
+  name = name || randomName;
+  setLocalStorage('name', name);
+
+  nameElement.innerHTML = name;
 }
 
 // Close notifications
@@ -50,6 +56,14 @@ function showNotification(string) {
 
 // LOCAL STORAGE
 
+function getLocalStorage(property) {
+  const value = localStorage.getItem('game');
+  const object = JSON.parse(value);
+  if (object !== null) {
+    return object[property];
+  }
+}
+
 function setLocalStorage(property, value) {
   localStorage.setItem(
     'game',
@@ -58,6 +72,7 @@ function setLocalStorage(property, value) {
       hasBoost,
       score,
       clickPerSeconds,
+      name,
       [property]: value,
     }),
   );
@@ -75,23 +90,15 @@ function getLocalStorageBonus() {
   }
 }
 
-function getLocalStorage(property) {
-  const value = localStorage.getItem('game');
-  const object = JSON.parse(value);
-  if (object !== null) {
-    return object[property];
-  }
-}
-
 // INFO
 
 function updateScore(amount) {
-  score += roundDecimalNumber(amount);
+  score += amount;
   scoreElement.textContent = `Score: ${Math.floor(score)}`;
 }
 
 function updateBank(amount) {
-  bank += roundDecimalNumber(amount);
+  bank += amount;
   bankElement.textContent = `${Math.floor(bank)} ninjas`;
 }
 
@@ -270,8 +277,6 @@ setInterval(() => {
 
   for (let i = 0; i < store.length; i++) {
     setLocalStorageBonus(i, 'count', store[i].count);
-    setLocalStorageBonus(i, 'price', store[i].price);
-    setLocalStorageBonus(i, 'cps', store[i].cps);
   }
 }, 1000);
 
@@ -280,11 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
   bank = getLocalStorage('bank');
   clickPerSeconds = getLocalStorage('clickPerSeconds');
   hasBoost = getLocalStorage('hasBoost');
+  name = getLocalStorage('name');
 
   for (let i = 0; i < store.length; i++) {
     getLocalStorageBonus(i, 'count', store[i].count);
-    getLocalStorageBonus(i, 'price', store[i].price);
-    getLocalStorageBonus(i, 'cps', store[i].cps);
   }
 
   setRandomNinjaName();
@@ -310,6 +314,9 @@ document.addEventListener('DOMContentLoaded', () => {
     bonusParent.appendChild(clone);
   }
 
+  updateScore(0);
+  updateBank(0);
+  updateClickPerSeconds(0);
   updateBonusAvailability();
 
   bonusTemplate.remove();
