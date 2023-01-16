@@ -194,6 +194,11 @@ function createShuriken() {
   };
 
   setTimeout(hideShuriken, 30 * 1000);
+  let angle = 0; //faire tourner le shuriken
+  setInterval(() => {
+    angle += 2;
+    shurikenElement.style.transform = 'rotateZ(' + angle + 'deg)';
+  }, 15);
 
   shurikenElement.onclick = () => {
     timerElement.style.display = 'block';
