@@ -12,6 +12,7 @@ const nameElement = document.getElementById('name');
 const bonusParent = document.getElementById('bonuses');
 const bonusTemplate = document.getElementById('template-bonus');
 const shurikenElement = document.getElementById('shuriken');
+const resetElement = document.getElementById('reset');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -91,16 +92,21 @@ function setLocalStorage(property, value) {
   );
 }
 
-function setLocalStorageBonus(index, property, value) {
-  store[index][property] = value;
-  localStorage.setItem('bonus', JSON.stringify(store));
-}
-
 function getLocalStorageBonus() {
   const storedStore = JSON.parse(localStorage.getItem('bonus'));
+
+  if (!storedStore) {
+    return;
+  }
+
   for (let i = 0; i < store.length; i++) {
     store[i] = { ...store[i], ...storedStore[i] };
   }
+}
+
+function setLocalStorageBonus(index, property, value) {
+  store[index][property] = value;
+  localStorage.setItem('bonus', JSON.stringify(store));
 }
 
 // INFO
@@ -146,8 +152,8 @@ function updateBonusLabel(bonus) {
   labelElement.textContent = bonus.label;
 }
 
-function updateBonusCount(bonus) {
-  bonus.count += 1;
+function updateBonusCount(bonus, amount = 0) {
+  bonus.count += amount;
   const countElement = bonus.element.querySelector('.count');
   countElement.textContent = bonus.count;
 }
@@ -183,7 +189,7 @@ function onBonusClick(bonus) {
     `You just clicked the bonus ${bonus.label} ! </br>-${bonus.price} ninjas</br>+${bonus.cps} ninjas/seconde`,
   );
   updateBank(-bonus.price);
-  updateBonusCount(bonus);
+  updateBonusCount(bonus, 1);
   updateBonusPrice(bonus);
   updateBonusCps(bonus);
   updateBonusAvailability();
@@ -227,6 +233,11 @@ function createShuriken() {
   };
 
   setTimeout(hideShuriken, 30 * 1000);
+  let angle = 0; //faire tourner le shuriken
+  setInterval(() => {
+    angle += 2;
+    shurikenElement.style.transform = 'rotateZ(' + angle + 'deg)';
+  }, 15);
 
   shurikenElement.onclick = () => {
     timerElement.style.display = 'block';
@@ -280,7 +291,21 @@ clickerElement.addEventListener('mouseup', () => {
   clickerElement.src = './karate-1.svg';
 });
 
-//LocalStorage
+resetElement.addEventListener('click', () => {
+  hasBoost = false;
+
+  updateScore(-score);
+  updateBank(-bank);
+  updateClickPerSeconds(-clickPerSeconds);
+
+  for (const bonus of store) {
+    updateBonusCount(bonus, -bonus.count);
+    updateBonusCps(bonus, -bonus.cps);
+    updateBonusPrice(bonus, -bonus.price);
+  }
+
+  updateBonusAvailability();
+});
 
 setInterval(() => {
   setLocalStorage('score', score);
@@ -294,15 +319,12 @@ setInterval(() => {
 }, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-  score = getLocalStorage('score');
-  bank = getLocalStorage('bank');
-  clickPerSeconds = getLocalStorage('clickPerSeconds');
-  hasBoost = getLocalStorage('hasBoost');
-  name = getLocalStorage('name');
-
-  for (let i = 0; i < store.length; i++) {
-    getLocalStorageBonus(i, 'count', store[i].count);
-  }
+  score = getLocalStorage('score') || score;
+  bank = getLocalStorage('bank') || bank;
+  clickPerSeconds = getLocalStorage('clickPerSeconds') || clickPerSeconds;
+  hasBoost = getLocalStorage('hasBoost') || hasBoost;
+  name = getLocalStorage('name') || name;
+  getLocalStorageBonus();
 
   setRandomNinjaName();
   randomShurikenSpawn();
@@ -316,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateBonusImg(bonus);
     updateBonusLabel(bonus);
+    updateBonusCount(bonus);
     updateBonusPrice(bonus);
     updateBonusCps(bonus);
 
