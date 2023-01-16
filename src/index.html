@@ -25,9 +25,13 @@
       class="absolute w-52 h-52 block hidden cursor-pointer z-10"
       src="./shuriken.svg"
     />
-    <main class="flex w-full justify-center flex-col md:flex-row md:pt-4 lg:pt-8">
-      <section class="flex flex-col">
-        <div class="font-mono text-[#f2e9e4] text-l text-center md:text-left">
+    <main class="flex w-full justify-center flex-col md:flex-row md:pt-4 lg:pt-8 gap-4">
+      <section
+        class="flex flex-row md:flex-col font-mono gap-10 justify-center items-center mt-4"
+      >
+        <div
+          class="text-[#f2e9e4] text-l text-center md:text-left py-2.5 px-5 bg-[#30344a] rounded-lg"
+        >
           <div id="total">Score: 0</div>
           <div>
             <div id="count">0 ninja</div>
@@ -35,6 +39,12 @@
           </div>
           <div id="timer"></div>
         </div>
+        <button
+          id="reset"
+          class="bg-[#9f1414] text-[#f2e9e4] hover:bg-[#8b1111] font-bold rounded-md px-6 py-2 text-base w-24 h-10"
+        >
+          Reset
+        </button>
       </section>
       <section class="flex flex-col justify-center items-center">
         <div

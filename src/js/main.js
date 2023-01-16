@@ -12,6 +12,7 @@ const nameElement = document.getElementById('name');
 const bonusParent = document.getElementById('bonuses');
 const bonusTemplate = document.getElementById('template-bonus');
 const shurikenElement = document.getElementById('shuriken');
+const resetElement = document.getElementById('reset');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -250,6 +251,22 @@ clickerElement.addEventListener('mousedown', () => {
 
 clickerElement.addEventListener('mouseup', () => {
   clickerElement.src = './karate-1.svg';
+});
+
+resetElement.addEventListener('click', () => {
+  hasBoost = false;
+
+  updateScore(-score);
+  updateBank(-bank);
+  updateClickPerSeconds(-clickPerSeconds);
+
+  for (const bonus of store) {
+    updateBonusCount(bonus, -bonus.count);
+    updateBonusCps(bonus, -bonus.cps);
+    updateBonusPrice(bonus, -bonus.price);
+  }
+
+  updateBonusAvailability();
 });
 
 setInterval(() => {
