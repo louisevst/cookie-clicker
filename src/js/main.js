@@ -25,6 +25,41 @@ function setRandomNinjaName() {
   nameElement.innerHTML = `${ninjaAdjectives[adjective]} ${ninjaNames[name]}`;
 }
 
+// LOCAL STORAGE
+
+function setLocalStorage(property, value) {
+  localStorage.setItem(
+    'game',
+    JSON.stringify({
+      bank,
+      hasBoost,
+      score,
+      clickPerSeconds,
+      [property]: value,
+    }),
+  );
+}
+
+function setLocalStorageBonus(index, property, value) {
+  store[index][property] = value;
+  localStorage.setItem('bonus', JSON.stringify(store));
+}
+
+function getLocalStorageBonus() {
+  const storedStore = JSON.parse(localStorage.getItem('bonus'));
+  for (let i = 0; i < store.length; i++) {
+    store[i] = { ...store[i], ...storedStore[i] };
+  }
+}
+
+function getLocalStorage(property) {
+  const value = localStorage.getItem('game');
+  const object = JSON.parse(value);
+  if (object !== null) {
+    return object[property];
+  }
+}
+
 // INFO
 
 function updateScore(amount) {
@@ -200,7 +235,33 @@ clickerElement.addEventListener('mouseup', () => {
   clickerElement.src = './karate-1.svg';
 });
 
+//LocalStorage
+
+setInterval(() => {
+  setLocalStorage('score', score);
+  setLocalStorage('clickPerSeconds', clickPerSeconds);
+  setLocalStorage('bank', bank);
+  setLocalStorage('hasBoost', hasBoost);
+
+  for (let i = 0; i < store.length; i++) {
+    setLocalStorageBonus(i, 'count', store[i].count);
+    setLocalStorageBonus(i, 'price', store[i].price);
+    setLocalStorageBonus(i, 'cps', store[i].cps);
+  }
+}, 1000);
+
 document.addEventListener('DOMContentLoaded', () => {
+  score = getLocalStorage('score');
+  bank = getLocalStorage('bank');
+  clickPerSeconds = getLocalStorage('clickPerSeconds');
+  hasBoost = getLocalStorage('hasBoost');
+
+  for (let i = 0; i < store.length; i++) {
+    getLocalStorageBonus(i, 'count', store[i].count);
+    getLocalStorageBonus(i, 'price', store[i].price);
+    getLocalStorageBonus(i, 'cps', store[i].cps);
+  }
+
   setRandomNinjaName();
   randomShurikenSpawn();
 
