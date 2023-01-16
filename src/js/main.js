@@ -37,7 +37,7 @@ function setRandomNinjaName() {
 function showNotification(string) {
   const box = `
   <div
-    class=" my-1 ml-auto w-3/5 md:w-1/2 lg:w-1/4 flex justify-between text-white rounded p-3 bg-green-900"
+    class="gap-10 mx-auto my-1 md:m-1 px-5 md:px-10 md:py-5 py-2 flex justify-between items-start text-white rounded p-3 bg-green-900"
   >
     <p class="self-center">
       ${string}
