@@ -116,6 +116,10 @@ function updateClickPerSeconds(amount) {
   const sum = clickPerSeconds + roundDecimalNumber(amount);
   clickPerSeconds = sum;
 
+  if (sum < 0) {
+    clickPerSeconds = 0;
+  }
+
   if (cpsIntervalId) {
     clearInterval(cpsIntervalId);
   }
