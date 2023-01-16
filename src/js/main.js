@@ -28,12 +28,12 @@ function setRandomNinjaName() {
 // INFO
 
 function updateScore(amount) {
-  score += roundDecimalNumber(amount);
+  score += amount;
   scoreElement.textContent = `Score: ${Math.floor(score)}`;
 }
 
 function updateBank(amount) {
-  bank += roundDecimalNumber(amount);
+  bank += amount;
   bankElement.textContent = `${Math.floor(bank)} ninjas`;
 }
 
