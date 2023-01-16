@@ -18,19 +18,28 @@ let clickPerSeconds = 0;
 let score = 0;
 let hasBoost = false;
 let cpsIntervalId;
+let name;
 
 function setRandomNinjaName() {
   const adjectiveRandom = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
   const nameRandom = Math.floor(Math.random() * (ninjaNames.length - 1));
   const randomName = `${ninjaAdjectives[adjectiveRandom]} ${ninjaNames[nameRandom]}`;
 
-  const name = localStorage.getItem('name') || randomName;
-  localStorage.setItem('name', name);
+  name = name || randomName;
+  setLocalStorage('name', name);
 
   nameElement.innerHTML = name;
 }
 
 // LOCAL STORAGE
+
+function getLocalStorage(property) {
+  const value = localStorage.getItem('game');
+  const object = JSON.parse(value);
+  if (object !== null) {
+    return object[property];
+  }
+}
 
 function setLocalStorage(property, value) {
   localStorage.setItem(
@@ -40,6 +49,7 @@ function setLocalStorage(property, value) {
       hasBoost,
       score,
       clickPerSeconds,
+      name,
       [property]: value,
     }),
   );
@@ -54,14 +64,6 @@ function getLocalStorageBonus() {
   const storedStore = JSON.parse(localStorage.getItem('bonus'));
   for (let i = 0; i < store.length; i++) {
     store[i] = { ...store[i], ...storedStore[i] };
-  }
-}
-
-function getLocalStorage(property) {
-  const value = localStorage.getItem('game');
-  const object = JSON.parse(value);
-  if (object !== null) {
-    return object[property];
   }
 }
 
@@ -258,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bank = getLocalStorage('bank');
   clickPerSeconds = getLocalStorage('clickPerSeconds');
   hasBoost = getLocalStorage('hasBoost');
+  name = getLocalStorage('name');
 
   for (let i = 0; i < store.length; i++) {
     getLocalStorageBonus(i, 'count', store[i].count);
