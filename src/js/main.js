@@ -352,3 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bonusTemplate.remove();
 });
+
+// Afficher le pop-up
+document.getElementById('greeting-popup').classList.remove('hidden');
+
+// Ajouter un écouteur d'événement pour fermer le pop-up lorsque le bouton de fermeture est cliqué
+document.getElementById('close-greeting-button').addEventListener('click', function () {
+  document.getElementById('greeting-popup').classList.add('hidden');
+});
