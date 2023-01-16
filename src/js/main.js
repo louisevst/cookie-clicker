@@ -41,11 +41,11 @@ function closeNotifications() {
     }),
   );
 }
-
+//show notifications
 function showNotification(string) {
   const box = `
   <div
-    class="w-3/5 md:w-1/2 lg:w-1/4 absolute bottom-0 right-0 z-10 flex justify-between text-purple-200 rounded p-3 bg-purple-600"
+    class=" my-1 ml-auto w-3/5 md:w-1/2 lg:w-1/4 flex justify-between text-white rounded p-3 bg-green-900"
   >
     <p class="self-center">
       ${string}
@@ -54,12 +54,11 @@ function showNotification(string) {
   </div>`;
 
   const element = document.createElement('div');
-  //element.classList = 'w-3/5 md:w-1/2 lg:w-1/4 absolute bottom-0 right-0 z-10';
   element.innerHTML = box;
 
   const notifs = document.getElementById('clickNotif');
 
-  notifs.after(element);
+  notifs.appendChild(element);
 
   closeNotifications();
 
@@ -182,11 +181,11 @@ function updateBonusAvailability() {
 }
 
 function onBonusClick(bonus) {
-  // if (bank < bonus.price) {
-  //   return;
-  // }
+  if (bank < bonus.price) {
+    return;
+  }
   showNotification(
-    `You just clicked the bonus ${bonus.label} ! </br>-${bonus.price} ninjas</br>+${bonus.cps} ninjas/seconde`,
+    `You just clicked the bonus ${bonus.label} ! </br>- ${bonus.price} ninjas</br>+ ${bonus.cps} ninjas/seconde`,
   );
   updateBank(-bonus.price);
   updateBonusCount(bonus, 1);
