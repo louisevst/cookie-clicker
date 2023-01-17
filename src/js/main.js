@@ -27,14 +27,90 @@ let cpsIntervalId;
 let name;
 let id;
 
+// DATABASE
+
+async function getDatabaseGame() {
+  try {
+    const response = await fetch('http://localhost:5555/game/' + id);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function getDatabaseBonus() {
+  try {
+    const response = await fetch('http://localhost:5555/bonus/' + id);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function setDatabaseGame() {
+  try {
+    const response = await fetch('http://localhost:5555/game/' + id, {
+      method: 'POST',
+      body: JSON.stringify({
+        score,
+        bank,
+        clickPerSeconds,
+        name,
+        hasBoost,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    await response.json();
+
+    if (response.ok) {
+      return true;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function setDatabaseBonus() {
+  try {
+    const response = await fetch('http://localhost:5555/bonus/' + id, {
+      method: 'POST',
+      body: JSON.stringify({
+        store,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    await response.json();
+
+    if (response.ok) {
+      return true;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// RANDOM NAME
+
 function setRandomNinjaName() {
   const adjectiveRandom = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
   const nameRandom = Math.floor(Math.random() * (ninjaNames.length - 1));
   const randomName = `${ninjaAdjectives[adjectiveRandom]} ${ninjaNames[nameRandom]}`;
 
   name = name || randomName;
-  setLocalStorage('name', name);
-
   nameElement.innerHTML = name;
 }
 
@@ -60,48 +136,6 @@ function showNotification(string) {
   setTimeout(deleteNotification, 10 * 1000);
 
   notificationsList.appendChild(clone);
-}
-
-// LOCAL STORAGE
-
-function getLocalStorage(property) {
-  const value = localStorage.getItem('game');
-  const object = JSON.parse(value);
-  if (object !== null) {
-    return object[property];
-  }
-}
-
-function setLocalStorage(property, value) {
-  localStorage.setItem(
-    'game',
-    JSON.stringify({
-      id,
-      bank,
-      hasBoost,
-      score,
-      clickPerSeconds,
-      name,
-      [property]: value,
-    }),
-  );
-}
-
-function getLocalStorageBonus() {
-  const storedStore = JSON.parse(localStorage.getItem('bonus'));
-
-  if (!storedStore) {
-    return;
-  }
-
-  for (let i = 0; i < store.length; i++) {
-    store[i] = { ...store[i], ...storedStore[i] };
-  }
-}
-
-function setLocalStorageBonus(index, property, value) {
-  store[index][property] = value;
-  localStorage.setItem('bonus', JSON.stringify(store));
 }
 
 // INFO
@@ -239,6 +273,9 @@ function createShuriken() {
   }, 15);
 
   shurikenElement.onclick = () => {
+    showNotification(
+      `Congrats! You just clicked on the shuriken, all your clicks are doubled for 30 seconds.`,
+    );
     timerElement.style.display = 'block';
 
     let timeLeft = 30;
@@ -291,9 +328,6 @@ clickerElement.addEventListener('mouseup', () => {
 });
 
 resetElement.addEventListener('click', () => {
-  hasBoost = false;
-  id = uuid();
-
   updateScore(-score);
   updateBank(-bank);
   updateClickPerSeconds(-clickPerSeconds);
@@ -304,30 +338,43 @@ resetElement.addEventListener('click', () => {
     updateBonusPrice(bonus, -bonus.price);
   }
 
+  hasBoost = false;
+  id = uuid();
+  localStorage.setItem('id', id);
+  notificationsList.innerHTML = '';
+
+  name = '';
+  setRandomNinjaName();
+
   updateBonusAvailability();
 });
 
 setInterval(() => {
-  setLocalStorage('score', score);
-  setLocalStorage('clickPerSeconds', clickPerSeconds);
-  setLocalStorage('bank', bank);
-  setLocalStorage('hasBoost', hasBoost);
-
-  for (let i = 0; i < store.length; i++) {
-    setLocalStorageBonus(i, 'count', store[i].count);
-  }
+  setDatabaseGame();
+  setDatabaseBonus();
 }, 1000);
 
-document.addEventListener('DOMContentLoaded', () => {
-  id = getLocalStorage('id') || uuid();
-  setLocalStorage('id', id);
+document.addEventListener('DOMContentLoaded', async () => {
+  id = localStorage.getItem('id') || uuid();
+  localStorage.setItem('id', id);
 
-  score = getLocalStorage('score') || score;
-  bank = getLocalStorage('bank') || bank;
-  clickPerSeconds = getLocalStorage('clickPerSeconds') || clickPerSeconds;
-  hasBoost = getLocalStorage('hasBoost') || hasBoost;
-  name = getLocalStorage('name') || name;
-  getLocalStorageBonus();
+  const gameData = await getDatabaseGame();
+
+  if (gameData) {
+    score = gameData.score;
+    bank = gameData.bank;
+    clickPerSeconds = gameData.clickPerSeconds;
+    hasBoost = gameData.hasBoost;
+    name = gameData.name;
+  }
+
+  const bonusData = await getDatabaseBonus();
+
+  if (bonusData) {
+    for (let i = 0; i < store.length; i++) {
+      store[i] = bonusData.store[i];
+    }
+  }
 
   setRandomNinjaName();
   randomShurikenSpawn();

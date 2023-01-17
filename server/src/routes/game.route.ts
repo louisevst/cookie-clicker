@@ -1,6 +1,5 @@
 import { RouteHandlerMethod } from 'fastify';
-import { Game } from '../database/models/game.model';
-import { getGameController } from '../controllers/game.controller';
+import { getGameController, setGameController } from '../controllers/game.controller';
 
 export const getGame: RouteHandlerMethod = async (req, res) => {
   try {
@@ -8,7 +7,11 @@ export const getGame: RouteHandlerMethod = async (req, res) => {
 
     res.status(200).send({
       id: document._id,
-      state: JSON.parse(document.state),
+      bank: document.bank,
+      clickPerSeconds: document.clickPerSeconds,
+      hasBoost: document.hasBoost,
+      name: document.name,
+      score: document.score,
     });
   } catch (e) {
     res.status(404).send({
@@ -19,23 +22,15 @@ export const getGame: RouteHandlerMethod = async (req, res) => {
 };
 
 export const setGame: RouteHandlerMethod = async (req, res) => {
-  let document = await Game.findByIdAndUpdate(
-    req.params.id,
-    {
-      state: JSON.stringify(req.body),
-    },
-    { new: true },
-  );
+  const data = {
+    bank: req.body.bank,
+    clickPerSeconds: req.body.clickPerSeconds,
+    hasBoost: req.body.hasBoost,
+    name: req.body.name,
+    score: req.body.score,
+  };
 
-  if (!document) {
-    document = await Game.create({
-      _id: req.params.id,
-      state: JSON.stringify(req.body),
-    });
-  }
+  await setGameController(req.params.id, data);
 
-  return res.status(200).send({
-    id: req.params.id,
-    state: JSON.parse(document.state),
-  });
+  return res.status(200).send(data);
 };
