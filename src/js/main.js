@@ -343,6 +343,9 @@ resetElement.addEventListener('click', () => {
   localStorage.setItem('id', id);
   notificationsList.innerHTML = '';
 
+  name = '';
+  setRandomNinjaName();
+
   updateBonusAvailability();
 });
 
