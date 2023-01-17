@@ -1,0 +1,22 @@
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.slide-in {
+  animation: slideIn 500ms ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    max-height: 0px;
+  }
+
+  to {
+    max-height: 200px;
+  }
+}

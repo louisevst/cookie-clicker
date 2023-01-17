@@ -2,12 +2,154 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta
+      name="description"
+      content="Join the ninja turtles in this fun and interactive cookie clicker game, created by a team of three as part of their BeCode training. Explore the game and have fun!"
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cookie Clicker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap"
+      rel="stylesheet"
+    />
+    <title>Ninja Clicker</title>
   </head>
+  <body
+    class="bg-repeat scrollbar-hide place-content-center overflow-hidden"
+    style="background-image: url(./pattern.svg)"
+  >
+    <div
+      id="popup"
+      class="hidden absolute inset-0 flex items-center justify-center z-50 overflow-y-auto overflow-x-hidden top-0 right-0 left-0 w-full md:inset-0 h-modal md:h-full font-mono"
+    >
+      <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+        <div class="relative p-4 bg-[#22213a] rounded-lg shadow dark:bg-gray-800 md:p-8">
+          <div class="mb-4 text-sm font-light text-[#f3e1d3]">
+            <h3 class="mb-3 text-2xl font-bold text-[#f3e1d3]">Your time to shine!</h3>
+            <p>
+              The young karateka that you are wants to triumph over evil in New York City.
+              With your mouse, just click to give your best high kicks. Don't forget that
+              the more ninjas you get, the more help you can buy from Ninja Turtles. You
+              will also notice that the more you ask for help, the more expensive it
+              becomes. Beware: it's ride or die in the sewers bitches
+            </p>
+          </div>
+          <div class="justify-between items-center pt-0 space-y-4 sm:flex sm:space-y-0">
+            <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
+              <button
+                id="close-popup-button"
+                type="button"
+                class="py-2 px-4 w-full text-sm font-medium text-[#f3e1d3] bg-[#72a731] rounded-lg sm:w-auto hover:bg-[#497f30] focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-[#f3e1d3] focus:z-10"
+              >
+                PLAY!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <body>
-    <script type="module" src="./main.js"></script>
+    <img
+      id="shuriken"
+      class="absolute w-52 h-52 block hidden cursor-pointer z-20"
+      src="./shuriken.svg"
+    />
+
+    <div
+      id="notifications-list"
+      class="absolute mx-5 md:mx-0 left-0 right-0 bottom-0 md:max-w-md md:left-auto z-10"
+    >
+      <div
+        id="notification-template"
+        class="hidden slide-in cursor-pointer animate__animated animate__faster"
+      >
+        <div
+          class="gap-10 mx-auto my-1 md:m-1 px-5 md:px-10 md:py-5 py-2 flex justify-between items-start text-white rounded-lg p-3 bg-[#30344a] shadow-lg"
+          hidden
+        >
+          <p class="self-center"></p>
+        </div>
+      </div>
+    </div>
+
+    <main
+      class="flex w-full justify-center flex-col md:flex-col md:pt-4 lg:flex-row lg:pt-8 gap-4 max-h-[98vh]"
+    >
+      <section
+        class="flex flex-row font-mono gap-10 justify-center items-center mt-4 lg:flex-col"
+      >
+        <div
+          class="text-[#f2e9e4] text-l text-center md:text-left py-2.5 px-5 bg-[#30344a] rounded-lg"
+        >
+          <div id="total">Score: 0</div>
+          <div>
+            <div id="count">0 ninja</div>
+            <div id="per-seconds">0 per sec.</div>
+          </div>
+          <div id="timer"></div>
+        </div>
+        <button
+          id="reset"
+          class="bg-[#9f1414] text-[#f2e9e4] hover:bg-[#8b1111] font-bold rounded-md px-6 py-2 text-base w-24 h-10"
+        >
+          Reset
+        </button>
+      </section>
+      <section class="flex flex-col justify-center items-center">
+        <div id="name" class="px-8 flex items-center text-center">
+          <span
+            class="leading-none font-['Aclonica'] text-[#f2e9e4] text-2xl md:text-4xl"
+          ></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="w-7 h-7 md:w-9 md:h-9 text-[#f2e9e4] pl-2 cursor-pointer"
+            id="new-name"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+            />
+          </svg>
+        </div>
+
+        <img
+          id="clicker"
+          class="cursor-pointer w-1/2 md:w-80"
+          src="./karate-1.svg"
+          alt="Ninja clicker"
+        />
+      </section>
+      <section
+        id="bonus-list"
+        class="grid grid-cols-1 mx-7 scrollbar-hide overflow-y-scroll md:grid-cols-2 md:max-w-full md:max-h-full lg:grid-cols-1 lg:max-h-full © lg:ml-10 gap-2"
+      >
+        <button
+          id="bonus-template"
+          class="flex md:flex-wrap rounded-lg shadow-xl bg-[#30344a] px-1 py-1 sm:px-4 sm:py-2 font-mono text-[#f2e9e4] text-sm gap-2 sm:gap-4 items-center disabled:opacity-50"
+          hidden
+        >
+          <img alt="" class="stroke-[#f2e9e4] w-8 md:w-10" />
+          <div class="flex flex-col items-start">
+            <div class="label">Bonus</div>
+            <div class="count">0</div>
+          </div>
+          <div class="flex flex-col items-end ml-auto self-start">
+            <div>
+              <div class="price inline"></div>
+              <img class="inline" src="./price.svg" width="20px" alt="Bonus price icon" />
+            </div>
+            <div class="multiplier"></div>
+          </div>
+        </button>
+      </section>
+    </main>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
