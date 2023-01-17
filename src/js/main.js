@@ -18,6 +18,8 @@ const shurikenElement = document.getElementById('shuriken');
 const resetElement = document.getElementById('reset');
 const notificationsList = document.getElementById('notifications-list');
 const notificationTemplate = document.getElementById('notification-template');
+const popup = document.getElementById('popup');
+const closePopUpButton = document.getElementById('close-popup-button');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -313,6 +315,10 @@ function randomShurikenSpawn() {
 }
 
 // EVENT LISTENERS
+closePopUpButton.addEventListener('click', () => {
+  popup.classList.add('hidden');
+  localStorage.setItem('popup', 'true');
+});
 
 clickerElement.addEventListener('mousedown', () => {
   clickerElement.src = './karate-2.svg';
@@ -379,6 +385,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   setRandomNinjaName();
   randomShurikenSpawn();
 
+  if (!localStorage.getItem('popup')) {
+    popup.classList.remove('hidden');
+  }
+
   for (const bonus of store) {
     const clone = bonusTemplate.cloneNode(true);
     const index = store.indexOf(bonus);
@@ -406,12 +416,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateBonusAvailability();
 
   bonusTemplate.remove();
-});
-
-// Afficher le pop-up
-document.getElementById('popup').classList.remove('hidden');
-
-// Ajouter un écouteur d'événement pour fermer le pop-up lorsque le bouton de fermeture est cliqué
-document.getElementById('close-popup-button').addEventListener('click', function () {
-  document.getElementById('popup').classList.add('hidden');
 });
