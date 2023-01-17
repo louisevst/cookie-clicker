@@ -18,6 +18,7 @@ const shurikenElement = document.getElementById('shuriken');
 const resetElement = document.getElementById('reset');
 const notificationsList = document.getElementById('notifications-list');
 const notificationTemplate = document.getElementById('notification-template');
+const newName = document.getElementById('new-name');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -111,9 +112,14 @@ function setRandomNinjaName() {
   const randomName = `${ninjaAdjectives[adjectiveRandom]} ${ninjaNames[nameRandom]}`;
 
   name = name || randomName;
-  nameElement.innerHTML = name;
+  const span = nameElement.querySelector('span');
+  span.innerHTML = name;
 }
 
+function getNewName() {
+  name = '';
+  setRandomNinjaName();
+}
 // NOTIFICATIONS
 
 function showNotification(string) {
@@ -313,6 +319,10 @@ function randomShurikenSpawn() {
 }
 
 // EVENT LISTENERS
+
+newName.addEventListener('click', () => {
+  getNewName();
+});
 
 clickerElement.addEventListener('mousedown', () => {
   clickerElement.src = './karate-2.svg';
