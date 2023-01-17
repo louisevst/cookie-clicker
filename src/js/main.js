@@ -58,7 +58,6 @@ function showNotification(string) {
 
   notifs.appendChild(element);
 }
-
 // LOCAL STORAGE
 
 function getLocalStorage(property) {
@@ -235,6 +234,9 @@ function createShuriken() {
   }, 15);
 
   shurikenElement.onclick = () => {
+    showNotification(
+      `Congrats! You just clicked on the shuriken, all your clicks are doubled for 30 seconds.`,
+    );
     timerElement.style.display = 'block';
 
     let timeLeft = 30;
