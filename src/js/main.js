@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   id = localStorage.getItem('id') || uuid();
   localStorage.setItem('id', id);
 
-  getDatabase('game').then((data) => {
+  await getDatabase('game').then((data) => {
     if (data) {
       score = data.score;
       bank = data.bank;
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  getDatabase('bonus').then((data) => {
+  await getDatabase('bonus').then((data) => {
     if (data) {
       for (let i = 0; i < store.length; i++) {
         store[i] = data.store[i];
