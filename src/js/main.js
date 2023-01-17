@@ -1,4 +1,6 @@
+import '../css/index.css';
 import '../css/tailwind.css';
+import 'animate.css';
 
 import { ninjaAdjectives, ninjaNames, store } from './constants';
 import { calculateCps, calculatePrice, roundDecimalNumber } from './utils';
@@ -9,10 +11,12 @@ const scoreElement = document.getElementById('total');
 const perSecondsElement = document.getElementById('per-seconds');
 const timerElement = document.getElementById('timer');
 const nameElement = document.getElementById('name');
-const bonusParent = document.getElementById('bonuses');
-const bonusTemplate = document.getElementById('template-bonus');
+const bonusList = document.getElementById('bonus-list');
+const bonusTemplate = document.getElementById('bonus-template');
 const shurikenElement = document.getElementById('shuriken');
 const resetElement = document.getElementById('reset');
+const notificationsList = document.getElementById('notifications-list');
+const notificationTemplate = document.getElementById('notification-template');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -35,28 +39,25 @@ function setRandomNinjaName() {
 // NOTIFICATIONS
 
 function showNotification(string) {
-  const box = `
-  <div
-    class="gap-10 mx-auto my-1 md:m-1 px-5 md:px-10 md:py-5 py-2 flex justify-between items-start text-white rounded p-3 bg-green-900"
-  >
-    <p class="self-center">
-      ${string}
-    </p>
-    <strong class="text-xl align-center cursor-pointer alert-del">&times;</strong>
-  </div>`;
+  const clone = notificationTemplate.cloneNode(true);
+  clone.querySelector('p').innerHTML = string;
+  clone.classList.remove('hidden');
 
-  const notifs = document.getElementById('clickNotif');
-  const element = document.createElement('div');
-  element.innerHTML = box;
-  element.onclick = () => {
-    element.remove();
+  const deleteNotification = () => {
+    clone.classList.remove('slide-in');
+    clone.classList.add('animate__fadeOutRight');
+    setTimeout(() => {
+      clone.remove();
+    }, 500);
   };
 
-  setTimeout(() => {
-    element.remove();
-  }, 30000);
+  clone.onclick = () => {
+    deleteNotification();
+  };
 
-  notifs.appendChild(element);
+  setTimeout(deleteNotification, 10 * 1000);
+
+  notificationsList.appendChild(clone);
 }
 
 // LOCAL STORAGE
@@ -181,7 +182,7 @@ function onBonusClick(bonus) {
     return;
   }
   showNotification(
-    `You just clicked the bonus ${bonus.label} ! </br>- ${bonus.price} ninjas</br>+ ${bonus.cps} ninjas/seconde`,
+    `You just clicked the bonus <u>${bonus.label}</u> ! </br>- ${bonus.price} ninjas</br>+ ${bonus.cps} ninjas/seconde`,
   );
   updateBank(-bonus.price);
   updateBonusCount(bonus, 1);
@@ -342,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
       onBonusClick(bonus);
     };
 
-    bonusParent.appendChild(clone);
+    bonusList.appendChild(clone);
   }
 
   updateScore(0);
