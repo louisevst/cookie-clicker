@@ -1,10 +1,10 @@
 # IDE
-/.vscode/
+.vscode
 
 # modules
-/node_modules
+node_modules
 
 # production build
-/dist/
+dist
 
 .DS_Store
