@@ -34,7 +34,7 @@ let id;
 
 async function getDatabaseGame() {
   try {
-    const response = await fetch(`${serverUrl}/bonus/${id}`);
+    const response = await fetch(`${serverUrl}/game/${id}`);
     const data = await response.json();
 
     if (response.ok) {
@@ -60,7 +60,7 @@ async function getDatabaseBonus() {
 
 async function setDatabaseGame() {
   try {
-    const response = await fetch(`${serverUrl}/bonus/${id}`, {
+    const response = await fetch(`${serverUrl}/game/${id}`, {
       method: 'POST',
       body: JSON.stringify({
         score,
