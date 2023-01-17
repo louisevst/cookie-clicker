@@ -5,14 +5,14 @@ import { root } from './routes/root.route';
 import { connect } from './database';
 import { getBonus, setBonus } from './routes/bonus.route';
 
-export default async (opts?: FastifyServerOptions) => {
+export default (opts?: FastifyServerOptions) => {
   const app = fastify(opts);
 
   app.addHook('onReady', async () => {
     await connect();
   });
 
-  await app.register(cors, {
+  app.register(cors, {
     origin: '*',
   });
 
