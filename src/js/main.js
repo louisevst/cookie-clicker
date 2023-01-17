@@ -1,6 +1,6 @@
+import 'animate.css';
 import '../css/index.css';
 import '../css/tailwind.css';
-import 'animate.css';
 
 import { v4 as uuid } from 'uuid';
 import { ninjaAdjectives, ninjaNames, serverUrl, store } from './constants';
@@ -30,82 +30,6 @@ let cpsIntervalId;
 let name;
 let id;
 
-// DATABASE
-
-async function getDatabaseGame() {
-  try {
-    const response = await fetch(`${serverUrl}/game/${id}`);
-    const data = await response.json();
-
-    if (response.ok) {
-      return data;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function getDatabaseBonus() {
-  try {
-    const response = await fetch(`${serverUrl}/bonus/${id}`);
-    const data = await response.json();
-
-    if (response.ok) {
-      return data;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function setDatabaseGame() {
-  try {
-    const response = await fetch(`${serverUrl}/game/${id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        score,
-        bank,
-        clickPerSeconds,
-        name,
-        hasBoost,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    await response.json();
-
-    if (response.ok) {
-      return true;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function setDatabaseBonus() {
-  try {
-    const response = await fetch(`${serverUrl}/bonus/${id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        store,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    await response.json();
-
-    if (response.ok) {
-      return true;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 // RANDOM NAME
 
 function setRandomNinjaName() {
@@ -122,6 +46,7 @@ function getNewName() {
   name = '';
   setRandomNinjaName();
 }
+
 // NOTIFICATIONS
 
 function showNotification(string) {
@@ -270,12 +195,14 @@ function createShuriken() {
   const hideShuriken = () => {
     shurikenElement.classList.add('hidden');
     clearInterval(shurikenInterval);
+    clearInterval(shurikenSpinner);
     updateClickPerSeconds(0);
   };
 
   setTimeout(hideShuriken, 30 * 1000);
-  let angle = 0; //faire tourner le shuriken
-  setInterval(() => {
+
+  let angle = 0;
+  const shurikenSpinner = setInterval(() => {
     angle += 2;
     shurikenElement.style.transform = 'rotateZ(' + angle + 'deg)';
   }, 15);
@@ -321,6 +248,7 @@ function randomShurikenSpawn() {
 }
 
 // EVENT LISTENERS
+
 closePopUpButton.addEventListener('click', () => {
   popup.classList.add('hidden');
   localStorage.setItem('popup', 'true');
@@ -365,32 +293,75 @@ resetElement.addEventListener('click', () => {
   updateBonusAvailability();
 });
 
+// DATABASE
+
+async function getDatabase(route) {
+  try {
+    const response = await fetch(`${serverUrl}/${route}/${id}`);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function postDatabase(route, data) {
+  try {
+    const response = await fetch(`${serverUrl}/${route}/${id}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    await response.json();
+
+    if (response.ok) {
+      return true;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 setInterval(() => {
-  setDatabaseGame();
-  setDatabaseBonus();
+  postDatabase('game', {
+    score,
+    bank,
+    clickPerSeconds,
+    name,
+    hasBoost,
+  });
+  postDatabase('bonus', {
+    store,
+  });
 }, 1000);
 
 document.addEventListener('DOMContentLoaded', async () => {
   id = localStorage.getItem('id') || uuid();
   localStorage.setItem('id', id);
 
-  const gameData = await getDatabaseGame();
-
-  if (gameData) {
-    score = gameData.score;
-    bank = gameData.bank;
-    clickPerSeconds = gameData.clickPerSeconds;
-    hasBoost = gameData.hasBoost;
-    name = gameData.name;
-  }
-
-  const bonusData = await getDatabaseBonus();
-
-  if (bonusData) {
-    for (let i = 0; i < store.length; i++) {
-      store[i] = bonusData.store[i];
+  getDatabase('game').then((data) => {
+    if (data) {
+      score = data.score;
+      bank = data.bank;
+      clickPerSeconds = data.clickPerSeconds;
+      hasBoost = data.hasBoost;
+      name = data.name;
     }
-  }
+  });
+
+  getDatabase('bonus').then((data) => {
+    if (data) {
+      for (let i = 0; i < store.length; i++) {
+        store[i] = data.store[i];
+      }
+    }
+  });
 
   setRandomNinjaName();
   randomShurikenSpawn();
