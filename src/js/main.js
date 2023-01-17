@@ -2,6 +2,7 @@ import '../css/index.css';
 import '../css/tailwind.css';
 import 'animate.css';
 
+import { v4 as uuid } from 'uuid';
 import { ninjaAdjectives, ninjaNames, store } from './constants';
 import { calculateCps, calculatePrice, roundDecimalNumber } from './utils';
 
@@ -24,6 +25,7 @@ let score = 0;
 let hasBoost = false;
 let cpsIntervalId;
 let name;
+let id;
 
 function setRandomNinjaName() {
   const adjectiveRandom = Math.floor(Math.random() * (ninjaAdjectives.length - 1));
@@ -73,6 +75,7 @@ function setLocalStorage(property, value) {
   localStorage.setItem(
     'game',
     JSON.stringify({
+      id,
       bank,
       hasBoost,
       score,
@@ -291,6 +294,7 @@ clickerElement.addEventListener('mouseup', () => {
 
 resetElement.addEventListener('click', () => {
   hasBoost = false;
+  id = uuid();
 
   updateScore(-score);
   updateBank(-bank);
@@ -317,6 +321,9 @@ setInterval(() => {
 }, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
+  id = getLocalStorage('id') || uuid();
+  setLocalStorage('id', id);
+
   score = getLocalStorage('score') || score;
   bank = getLocalStorage('bank') || bank;
   clickPerSeconds = getLocalStorage('clickPerSeconds') || clickPerSeconds;
