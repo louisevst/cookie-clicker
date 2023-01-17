@@ -67,3 +67,7 @@ export const ninjaNames = [
   'Dagger',
   'Master',
 ];
+
+export const serverUrl = import.meta.env.PROD
+  ? 'https://cookie.rct.re'
+  : 'http://localhost:5555';

@@ -3,7 +3,7 @@ import '../css/tailwind.css';
 import 'animate.css';
 
 import { v4 as uuid } from 'uuid';
-import { ninjaAdjectives, ninjaNames, store } from './constants';
+import { ninjaAdjectives, ninjaNames, serverUrl, store } from './constants';
 import { calculateCps, calculatePrice, roundDecimalNumber } from './utils';
 
 const clickerElement = document.getElementById('clicker');
@@ -34,7 +34,7 @@ let id;
 
 async function getDatabaseGame() {
   try {
-    const response = await fetch('http://localhost:5555/game/' + id);
+    const response = await fetch(`${serverUrl}/bonus/${id}`);
     const data = await response.json();
 
     if (response.ok) {
@@ -47,7 +47,7 @@ async function getDatabaseGame() {
 
 async function getDatabaseBonus() {
   try {
-    const response = await fetch('http://localhost:5555/bonus/' + id);
+    const response = await fetch(`${serverUrl}/bonus/${id}`);
     const data = await response.json();
 
     if (response.ok) {
@@ -60,7 +60,7 @@ async function getDatabaseBonus() {
 
 async function setDatabaseGame() {
   try {
-    const response = await fetch('http://localhost:5555/game/' + id, {
+    const response = await fetch(`${serverUrl}/bonus/${id}`, {
       method: 'POST',
       body: JSON.stringify({
         score,
@@ -86,7 +86,7 @@ async function setDatabaseGame() {
 
 async function setDatabaseBonus() {
   try {
-    const response = await fetch('http://localhost:5555/bonus/' + id, {
+    const response = await fetch(`${serverUrl}/bonus/${id}`, {
       method: 'POST',
       body: JSON.stringify({
         store,
