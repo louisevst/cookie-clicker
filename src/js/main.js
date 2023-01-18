@@ -273,25 +273,27 @@ clickerElement.addEventListener('mouseup', () => {
 });
 
 resetElement.addEventListener('click', () => {
-  updateScore(-score);
-  updateBank(-bank);
-  updateClickPerSeconds(-clickPerSeconds);
+  if (confirm('Click OK to reset your game. All your progress will be deleted.')) {
+    updateScore(-score);
+    updateBank(-bank);
+    updateClickPerSeconds(-clickPerSeconds);
 
-  for (const bonus of store) {
-    updateBonusCount(bonus, -bonus.count);
-    updateBonusCps(bonus, -bonus.cps);
-    updateBonusPrice(bonus, -bonus.price);
+    for (const bonus of store) {
+      updateBonusCount(bonus, -bonus.count);
+      updateBonusCps(bonus, -bonus.cps);
+      updateBonusPrice(bonus, -bonus.price);
+    }
+
+    hasBoost = false;
+    id = uuid();
+    localStorage.setItem('id', id);
+    notificationsList.innerHTML = '';
+
+    name = '';
+    setRandomNinjaName();
+
+    updateBonusAvailability();
   }
-
-  hasBoost = false;
-  id = uuid();
-  localStorage.setItem('id', id);
-  notificationsList.innerHTML = '';
-
-  name = '';
-  setRandomNinjaName();
-
-  updateBonusAvailability();
 });
 
 mode.addEventListener('click', () => {
