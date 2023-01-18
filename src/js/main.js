@@ -21,6 +21,7 @@ const notificationTemplate = document.getElementById('notification-template');
 const newName = document.getElementById('new-name');
 const popup = document.getElementById('popup');
 const closePopUpButton = document.getElementById('close-popup-button');
+const changeMode = document.getElementById('mode');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -272,25 +273,42 @@ clickerElement.addEventListener('mouseup', () => {
 });
 
 resetElement.addEventListener('click', () => {
-  updateScore(-score);
-  updateBank(-bank);
-  updateClickPerSeconds(-clickPerSeconds);
+  if (confirm('Click OK to reset your game. All your progress will be deleted.')) {
+    updateScore(-score);
+    updateBank(-bank);
+    updateClickPerSeconds(-clickPerSeconds);
 
-  for (const bonus of store) {
-    updateBonusCount(bonus, -bonus.count);
-    updateBonusCps(bonus, -bonus.cps);
-    updateBonusPrice(bonus, -bonus.price);
+    for (const bonus of store) {
+      updateBonusCount(bonus, -bonus.count);
+      updateBonusCps(bonus, -bonus.cps);
+      updateBonusPrice(bonus, -bonus.price);
+    }
+
+    hasBoost = false;
+    id = uuid();
+    localStorage.setItem('id', id);
+    notificationsList.innerHTML = '';
+
+    name = '';
+    setRandomNinjaName();
+
+    updateBonusAvailability();
   }
+});
 
-  hasBoost = false;
-  id = uuid();
-  localStorage.setItem('id', id);
-  notificationsList.innerHTML = '';
+mode.addEventListener('click', () => {
+  if (
+    localStorage.theme === 'dark' ||
+    (!('theme' in localStorage) &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+    localStorage.theme = 'light';
+  } else {
+    document.documentElement.classList.remove('dark');
 
-  name = '';
-  setRandomNinjaName();
-
-  updateBonusAvailability();
+    localStorage.theme = 'dark';
+  }
 });
 
 // DATABASE
