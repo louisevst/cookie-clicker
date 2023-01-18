@@ -21,6 +21,7 @@ const notificationTemplate = document.getElementById('notification-template');
 const newName = document.getElementById('new-name');
 const popup = document.getElementById('popup');
 const closePopUpButton = document.getElementById('close-popup-button');
+const changeMode = document.getElementById('mode');
 
 let bank = 0;
 let clickPerSeconds = 0;
@@ -291,6 +292,21 @@ resetElement.addEventListener('click', () => {
   setRandomNinjaName();
 
   updateBonusAvailability();
+});
+
+mode.addEventListener('click', () => {
+  if (
+    localStorage.theme === 'dark' ||
+    (!('theme' in localStorage) &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+    localStorage.theme = 'light';
+  } else {
+    document.documentElement.classList.remove('dark');
+
+    localStorage.theme = 'dark';
+  }
 });
 
 // DATABASE
