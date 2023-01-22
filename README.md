@@ -1,46 +1,49 @@
 # Ninja Clicker
 
----
+For my BeCode training I had to make a cookie clicker, the theme is The Ninja Turtles.
 
-For our BeCode training we had to make a cookie clicker in team of three.
+You are a ninja in New York City and need to practice your ninja moves as much as possible by clicking the ninja. This gives you the opportunity to earn ninjas and be able to get the help of your favourite Ninja Turtle character. If you're a dedicated ninja, you'll see a shuriken spawning: click on it and all your clicks will be doubled for 30 seconds!
 
-The theme of our cookie clicker is the ninja turtles. You are a ninja in New York City and need to practice your ninja moves as much as possible by clicking the ninja. This gives you the opportunity to earn ninjas and be able to get the help of your favourite ninja turtle.
+## See It Live
 
-If you're a dedicated ninja, you'll see a shuriken spawning. Click on it and all your clicks will be doubled for 30 seconds.
-
-![screenshot of our project](https://github.com/n-vh/cookie-clicker/blob/master/src/public/ninja-clicker-screenshot.png?raw=true)
-
-## See it Live
-
-You can view our project [here](https://n-vh.github.io/cookie-clicker).
+You can play the game [here](https://n-vh.github.io/cookie-clicker)!
 
 Have fun !
 
-## Tech used
+![screenshot](./src/public/ninja-clicker-screenshot.png?raw=true)
+
+---
+
+## Techs used
 
 - `Vite`
-- `Pnpm`
 
-**Server**
+### Website
 
-- `Mongoose`
-- `Typescript`
-
-**Website**
-
-- `Tailwind` css framework
+- `Tailwind`
 - `JavaScript`
+
+### Server
+
+- `Fastify`
+- `Mongoose`
+- `TypeScript`
+
+---
 
 ## Develop
 
-1. `git clone` project
-2. `pnpm install` to install dependencies
-3. `pnpm dev` to start developing
+### Website
 
-### The collaborators
+1. `npm install`
+2. `npm run dev` starts a local development server that automatically reloads the front-end and scripts.
+3. `npm run build` compiles the project in `dist` folder.
 
-- [Chloé Halloin](https://github.com/ChloeHal)
-- [Louise Vassart](https://github.com/louisevst)
-- [Nils Van Hée](https://github.com/n-vh)
+- `npm run pages` deploys the website `dist` folder on GitHub Pages.
+
+### Server
+
+- `cd /server/` to install dependencies
+- Same three steps as Website
 
 &copy; 2023
