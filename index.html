@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Join the Ninja Turtles in this fun and interactive cookie clicker game, created as part of my BeCode training. Explore the game and have fun!"
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap"
+      rel="stylesheet"
+    />
+    <title>Ninja Clicker</title>
+    <script type="module" crossorigin src="assets/main.c89741e0.js"></script>
+    <link rel="stylesheet" href="assets/main.10cf9edb.css">
+  </head>
+  <body
+    class="scrollbar-hide place-content-center overflow-hidden bg-repeat dark:bg-[url('../pattern.svg')]"
+  >
+    <div
+      id="popup"
+      class="h-modal absolute inset-0 top-0 right-0 left-0 z-50 flex hidden w-full items-center justify-center overflow-y-auto overflow-x-hidden font-mono md:inset-0 md:h-full"
+    >
+      <div class="relative h-full w-full max-w-lg p-4 md:h-auto">
+        <div class="relative rounded-lg bg-[#666d8f] p-4 shadow dark:bg-[#22213a] md:p-8">
+          <div class="mb-4 text-sm font-light text-[#c3c6d5] dark:text-[#f3e1d3]">
+            <h3 class="mb-3 text-2xl font-bold text-[#c3c6d5] dark:text-[#f3e1d3]">
+              Your time to shine!
+            </h3>
+            <p>
+              The young karateka that you are wants to triumph over evil in New York City.
+              With your mouse, just click to give your best high kicks. Don't forget that
+              the more ninjas you get, the more help you can buy from Ninja Turtles. You
+              will also notice that the more you ask for help, the more expensive it
+              becomes. Beware: it's ride or die in the sewers bitches
+            </p>
+          </div>
+          <div class="items-center justify-between space-y-4 pt-0 sm:flex sm:space-y-0">
+            <div class="items-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+              <button
+                id="close-popup-button"
+                type="button"
+                class="focus:ring-primary-300 w-full rounded-lg bg-[#c3c6d5] py-2 px-4 text-sm font-medium text-[#c3c6d5] hover:bg-[#666d8f] hover:text-[#abafc4] focus:z-10 focus:outline-none focus:ring-4 dark:text-[#30344a] sm:w-auto"
+              >
+                PLAY!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img
+      id="shuriken"
+      class="absolute z-20 block hidden h-52 w-52 cursor-pointer"
+      src="./shuriken.svg"
+    />
+
+    <div
+      id="notifications-list"
+      class="absolute left-0 right-0 bottom-0 z-10 mx-5 md:left-auto md:mx-0 md:max-w-md"
+    >
+      <div
+        id="notification-template"
+        class="slide-in animate__animated animate__faster hidden cursor-pointer"
+      >
+        <div
+          class="mx-auto my-1 flex items-start justify-between gap-10 rounded-lg bg-[#666d8f] p-3 px-5 py-2 text-[#c3c6d5] shadow-lg dark:bg-[#30344a] dark:text-white md:m-1 md:px-10 md:py-5"
+          hidden
+        >
+          <p class="self-center"></p>
+        </div>
+      </div>
+    </div>
+
+    <main
+      class="flex max-h-[98vh] w-full flex-col justify-center gap-4 md:flex-col md:pt-4 lg:flex-row lg:pt-8"
+    >
+      <section
+        class="mt-4 flex flex-row items-center justify-center gap-10 font-mono lg:flex-col"
+      >
+        <div
+          class="text-l rounded-lg bg-[#7c82a2] py-2.5 px-5 text-center text-[#c3c6d5] dark:bg-[#30344a] dark:text-[#f2e9e4] md:text-left"
+        >
+          <div id="total">Score: 0</div>
+          <div>
+            <div id="count" class="text-lg font-bold">0 ninja</div>
+            <div id="per-seconds">0 per sec.</div>
+          </div>
+          <div id="timer"></div>
+        </div>
+        <div class="flex flex-row">
+          <button
+            id="reset"
+            class="h-10 w-24 rounded-md bg-[#ac2828] px-6 py-2 text-base font-bold text-[#f2e9e4] hover:bg-[#942020]"
+          >
+            Reset
+          </button>
+        </div>
+      </section>
+      <section class="flex flex-col items-center justify-center gap-4">
+        <div id="name" class="flex items-center px-8 text-center">
+          <span
+            class="font-['Aclonica'] text-2xl leading-none text-[#22213a] dark:text-[#c3c6d5] md:text-4xl"
+          ></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="h-7 w-7 cursor-pointer pl-2 text-[#22213a] dark:text-[#c3c6d5] md:h-9 md:w-9"
+            id="new-name"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+            />
+          </svg>
+        </div>
+
+        <img
+          id="clicker"
+          class="w-1/2 cursor-pointer md:w-80"
+          src="./karate-1.svg"
+          alt="Ninja clicker"
+        />
+      </section>
+      <section
+        id="bonus-list"
+        class="scrollbar-hide © mx-7 grid grid-cols-1 gap-2 overflow-y-scroll md:max-h-full md:max-w-full md:grid-cols-2 lg:ml-10 lg:max-h-full lg:grid-cols-1"
+      >
+        <button
+          id="bonus-template"
+          class="flex items-center justify-center gap-2 rounded-lg bg-[#7c82a2] px-2 py-1 font-mono text-sm text-[#c3c6d5] shadow-xl disabled:opacity-50 dark:bg-[#30344a] dark:text-[#f2e9e4] sm:gap-4 sm:px-4 sm:py-2 md:flex-wrap"
+          hidden
+        >
+          <img alt="" class="w-8 md:w-10" />
+          <div class="flex flex-col items-start">
+            <div class="label">Bonus</div>
+            <div class="count">0</div>
+          </div>
+          <div class="ml-auto flex flex-col items-end self-center">
+            <div>
+              <div class="price inline"></div>
+              <img class="inline" src="./price.svg" width="20px" alt="Bonus price icon" />
+            </div>
+            <div class="multiplier"></div>
+          </div>
+        </button>
+      </section>
+    </main>
+    
+  </body>
+</html>
