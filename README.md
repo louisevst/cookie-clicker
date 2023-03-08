@@ -8,7 +8,7 @@ You are a ninja in New York City and need to practice your ninja moves as much a
 
 ## See It Live
 
-You can play the game [here](https://n-vh.github.io/cookie-clicker)!
+You can play the game [here](https://louisevst.github.io/cookie-clicker/)!
 
 Have fun!
 
